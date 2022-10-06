@@ -1,2 +1,3 @@
-# matchingProject
-매칭 시스템 구현
+# myPetToyReview
+
+내 펫의 장난감에 대한 리뷰 사이트
