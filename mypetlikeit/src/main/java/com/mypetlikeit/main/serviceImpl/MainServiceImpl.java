@@ -5,17 +5,15 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.mypetlikeit.domain.Member;
+import com.mypetlikeit.main.mapper.MainMapper;
 import com.mypetlikeit.main.service.MainService;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
-public class MainServiceImpl{
+@RequiredArgsConstructor
+public class MainServiceImpl implements MainService{
 
-    // private SqlSession seqlSession;
-    MainService mainService;
+    private final MainMapper mainMapper;
 
-    public List<Member> getMemberList() {
-        System.out.println("여기는 impl 응답하라");
-        return mainService.getMemberList();
-    }
-    
 }

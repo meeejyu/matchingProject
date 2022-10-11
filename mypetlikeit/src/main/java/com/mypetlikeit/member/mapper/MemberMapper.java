@@ -1,4 +1,4 @@
-package com.mypetlikeit.main.service;
+package com.mypetlikeit.member.mapper;
 
 import java.util.List;
 
@@ -7,9 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 import com.mypetlikeit.domain.Member;
 
 @Mapper
-public interface MainService {
+public interface MemberMapper {
     
-    //xml방식
     List<Member> getMemberList();
     
 }

@@ -30,7 +30,7 @@ public class SecurityConfig {
           .headers()
             .frameOptions().disable().and()
           .authorizeRequests()
-            .antMatchers("/login","/main","/").permitAll()
+            .antMatchers("/login","/main","/", "/member").permitAll()
             .antMatchers("/user/**").hasRole("USER")
             .anyRequest().authenticated().and()
           .formLogin()
