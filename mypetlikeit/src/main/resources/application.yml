@@ -1,8 +1,10 @@
 spring:
   thymeleaf:
-    prefix: classpath:templates/
-    suffix: .html
-    cache: false
+      prefix: classpath:templates/
+      suffix: .html
+      cache: false
+  mvc:
+    static-path-pattern: "/static/**"
   
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

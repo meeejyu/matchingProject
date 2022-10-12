@@ -19,9 +19,7 @@ public class MemberController {
 
     @GetMapping("/member")
     public String member() {
-        System.out.println("되니?");
         List<Member> memberList = memberService.getMemberList();
-        System.out.println("되니?2");
 
         System.out.println(memberList.toString());
         return "main";

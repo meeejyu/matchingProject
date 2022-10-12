@@ -1,10 +1,6 @@
 package com.mypetlikeit.main.mapper;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
-
-import com.mypetlikeit.domain.Member;
 
 @Mapper
 public interface MainMapper {
