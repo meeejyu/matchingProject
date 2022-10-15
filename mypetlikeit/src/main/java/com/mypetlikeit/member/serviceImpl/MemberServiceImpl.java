@@ -21,4 +21,10 @@ public class MemberServiceImpl implements MemberService{
         System.out.println("여기는 impl 응답하라");
         return memberMapper.getMemberList();
     }
+
+    @Override
+    public void memberSave(Member member) {
+        memberMapper.memberSave(member);
+    }
+
 }

@@ -10,5 +10,7 @@ import com.mypetlikeit.domain.Member;
 public interface MemberMapper {
     
     List<Member> getMemberList();
+
+    void memberSave(Member member);
     
 }

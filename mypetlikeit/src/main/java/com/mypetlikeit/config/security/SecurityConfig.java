@@ -31,7 +31,7 @@ public class SecurityConfig {
             .frameOptions().disable().and()
           .authorizeRequests()
             .antMatchers("/bootstrap/**/**").permitAll()
-            .antMatchers("/login","/main","/", "/member").permitAll()
+            .antMatchers("/login","/main","/", "/member","/signup").permitAll()
             .antMatchers("/user/**").hasRole("USER")
             .anyRequest().authenticated().and()
           .formLogin()

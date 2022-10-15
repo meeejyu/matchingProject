@@ -9,4 +9,17 @@
         select * from TB_MEMBER;
     </select>
 
+    <insert id="memberSave">
+        INSERT into TB_MEMBER (
+            MEMBER_LOGINID, MEMBER_PW, MEMBER_NICKNAME,
+            MEMBER_EMAIL, MEMBER_PROFILE, MEMBER_ADR,
+            MEMBER_PET_NAME, MEMBER_PET_CATEGORY, MEMBER_WANT_PET,
+            MEMBER_WANT_ADR, MEMBER_CREATE)
+        values (
+        #{loginId}, #{password}, #{nickname},
+        #{email}, #{profile}, #{address},
+        #{petName}, #{petCategory}, #{wantPet},
+        #{wantAddress}, now()
+        );
+    </insert>
 </mapper>

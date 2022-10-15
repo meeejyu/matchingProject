@@ -7,4 +7,6 @@ import com.mypetlikeit.domain.Member;
 public interface MemberService {
     
     public List<Member> getMemberList();
+
+    void memberSave(Member member);
 }
