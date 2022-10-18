@@ -27,4 +27,18 @@ public class MemberServiceImpl implements MemberService{
         memberMapper.memberSave(member);
     }
 
+    @Override
+    public List<Member> memberLoginId(String id) {
+        List<Member> member = memberMapper.memberLoginId(id);        
+        return member;
+    }
+
+    @Override
+    public List<Member> memberNickname(String nickname) {
+        List<Member> member = memberMapper.memberNickname(nickname);        
+        return member;
+    }
+
+
+
 }

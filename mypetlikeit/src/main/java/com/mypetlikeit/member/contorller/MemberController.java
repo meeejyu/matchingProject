@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mypetlikeit.domain.Member;
 import com.mypetlikeit.member.service.MemberService;
@@ -39,5 +40,37 @@ public class MemberController {
         memberService.memberSave(member);
         System.out.println("성공");
         return "signUpSuccess";
+    }
+
+    @PostMapping("/member/idCheck")
+    public @ResponseBody String memberidCheck(String LOGIN_ID) {
+        
+        System.out.println("값이 잘오나 확인"+LOGIN_ID);
+        List<Member> member = memberService.memberLoginId(LOGIN_ID);
+        if(member.size()<1) {
+            System.out.println("성공");
+            return "success";
+        }
+        else {
+            System.out.println("실패");
+            return "fail";
+        }
+        // return "signUpSuccess";
+    }
+
+    @PostMapping("/member/nickCheck")
+    public @ResponseBody String memberNickCheck(String nickname) {
+        
+        System.out.println("값이 잘오나 확인"+nickname);
+        List<Member> member = memberService.memberNickname(nickname);
+        if(member.size()<1) {
+            System.out.println("성공");
+            return "success";
+        }
+        else {
+            System.out.println("실패");
+            return "fail";
+        }
+        // return "signUpSuccess";
     }
 }

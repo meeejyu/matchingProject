@@ -12,5 +12,9 @@ public interface MemberMapper {
     List<Member> getMemberList();
 
     void memberSave(Member member);
+
+    List<Member> memberLoginId(String id);
+
+    List<Member> memberNickname(String nickname);
     
 }

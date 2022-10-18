@@ -68,6 +68,7 @@
                 <input type="text" class="form-control" id="nickname" name="nickname" value="00" maxlength="20">
                 <span class="nick_chk1" id="nick_chk1" style="display: none;">필수 항목입니다.</span>
                 <span class="nick_chk2" id="nick_chk2" style="display: none;">한글, 영어 대소문자, 숫자만 사용할 수 있습니다(20자 제한)</span>
+                <span class="nick_chk3" id="nick_chk3" style="display: none;">이미 존재하는 닉네임 입니다.</span>
             </div>
             <div class="form-group">
                 <label for="email">이메일</label>
@@ -75,64 +76,48 @@
                 <span class="email_chk1" id="email_chk1" style="display: none;">필수 항목입니다.</span>
                 <span class="email_chk2" id="email_chk2" style="display: none;">이메일 형식이 잘못되었습니다</span>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="address">주소</label>
                 <input type="text" class="form-control" id="address" name="address" value="00">
                 <span class="addr_chk1" id="addr_chk1" style="display: none;">필수 항목입니다.</span>
-            </div>
-            <div class="form-group">
+            </div> -->
+            <!-- <div class="form-group">
                 <label for="profile">사용자 프로필(소개)</label>
                 <input type="text" class="form-control" id="profile" name="profile" placeholder="본인을 소개하는 글을 간단하게 적어주세요"
                     value="00">
-            </div>
+            </div> -->
 
             <div class="form-group">
-                <h3>현재 반려견을 기르고 계신가요?</h3>
-                <input type="radio" name="petYN" value="yes" onclick="check_YN()" />네
-                <input type="radio" name="petYN" value="no" onclick="check_YN()" />아니요
+                <h3>현재 반려동물을 기르고 계신가요?</h3>
+                <input type="radio" name="petYN" value="Y" onclick="check_YN()" />네
+                <input type="radio" name="petYN" value="N" onclick="check_YN()" />아니요
                 <span class="petYN_chk1" id="petYN_chk1" style="display: none;">필수 항목입니다.</span>
             </div>
 
             <div class="add_info" id="add_info" style="display: none;">
                 <div class="form-group">
-                    <label for="petName">강아지 이름</label>
+                    <label for="petName">펫 이름</label>
                     <input type="text" class="form-control" id="petName" name="petName" value="00">
                     <span class="petName_chk1" id="petName_chk1" style="display: none;">필수 항목입니다.</span>
                     <span class="petName_chk2" id="petName_chk2" style="display: none;">한글, 영어만 사용 가능합니다.</span>
                 </div>
                 <div class="form-group">
-                    <label for="petCategory">견종</label>
+                    <label for="petCategory">펫 종류</label>
                     <div>
-                        <input type="radio" name="petCategory" value="Maltese" onclick="check_myPet()" />몰티즈
-                        <input type="radio" name="petCategory" value="poodle" onclick="check_myPet()" />푸들
-                        <input type="radio" name="petCategory" value="Pomeranian" onclick="check_myPet()" />포메라니안
-                        <input type="radio" name="petCategory" value="Chihuahua" onclick="check_myPet()" />치와와
-                    </div>
-                    <div>
-                        <input type="radio" name="petCategory" value="ShihTzu" onclick="check_myPet()" />시추
-                        <input type="radio" name="petCategory" value="goldenRetriever" onclick="check_myPet()" />골든리트리버
-                        <input type="radio" name="petCategory" value="JindoDog" onclick="check_myPet()" />진돗개
-                        <input type="radio" name="petCategory" value="mixedDog" onclick="check_myPet()" />믹스견
-                        <input type="radio" name="petCategory" value="etc" onclick="check_myPet()" />기타
+                        <input type="radio" name="petCategory" value="dog" onclick="check_myPet()" /> 강아지
+                        <input type="radio" name="petCategory" value="cat" onclick="check_myPet()" /> 고양이
+                        <input type="radio" name="petCategory" value="animal" onclick="check_myPet()" /> 일반 동물
                     </div>
                     <span class="petCategory_chk1" id="petCategory_chk1" style="display: none;">필수 항목입니다.</span>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="wantPet">추천받길 원하는 견종 (최소 1가지 ~ 최대 3가지) </label>
+                <label for="wantPet">추천받길 원하는 펫 (최소 1가지 ~ 최대 3가지) </label>
                 <div>
-                    <input type="checkbox" name="wantPet" id="Maltese" value="Maltese" />몰티즈
-                    <input type="checkbox" name="wantPet" id="poodle" value="poodle" />푸들
-                    <input type="checkbox" name="wantPet" id="Pomeranian" value="Pomeranian" />포메라니안
-                    <input type="checkbox" name="wantPet" id="Chihuahua" value="Chihuahua" />치와와
-                </div>
-                <div>
-                    <input type="checkbox" name="wantPet" id="ShihTzu" value="ShihTzu" />시추
-                    <input type="checkbox" name="wantPet" id="goldenRetriever" value="goldenRetriever" />골든리트리버
-                    <input type="checkbox" name="wantPet" id="JindoDog" value="JindoDog" />진돗개
-                    <input type="checkbox" name="wantPet" id="mixedDog" value="mixedDog" />믹스견
-                    <input type="checkbox" name="wantPetAll" id="all" value="all" /> 모두
+                    <input type="checkbox" name="wantPet" id="dog" value="dog" />강아지
+                    <input type="checkbox" name="wantPet" id="cat" value="cat" /> 고양이
+                    <input type="checkbox" name="wantPet" id="animal" value="animal" />일반 동물
                 </div>
                 <span class="want_pet_chk1" id="want_pet_chk1" style="display: none;">필수 항목입니다.</span>
             </div>
@@ -184,14 +169,35 @@
                 }
                 else {
                     // 아이디 중복인지 확인하는 로직
-                    // 줄일수 있는 방법 알아보기
-                    $("#id_chk1").css({
-                        "display": "none"
+                    $.ajax({
+                        url: '/member/idCheck',
+                        type: 'post',
+                        // dataType:'json',
+                        data: {
+                            "LOGIN_ID": id
+                        },
+                        success: function (r) {
+                            if (r == "success") {
+                                alert("아이디 중복확인 완료");
+                                $("#id_chk1").css({
+                                    "display": "none"
+                                });
+                                $("#id_chk2").css({
+                                    "display": "none"
+                                });
+                                $("#id_chk3").css({
+                                    "display": "none"
+                                });
+                                idCheck = true;
+                            }
+                            else {
+                                alert("중복확인 실패");
+                                $("#id_chk3").css({
+                                    "display": "block"
+                                });
+                            }
+                        }
                     });
-                    $("#id_chk2").css({
-                        "display": "none"
-                    });
-                    idCheck = true;
                 }
             });
 
@@ -293,13 +299,35 @@
                     nickCheck = false;
                 }
                 else {
-                    $("#nick_chk1").css({
-                        "display": "none"
+                    // 닉네임 중복인지 확인하는 로직
+                    $.ajax({
+                        url: '/member/nickCheck',
+                        type: 'post',
+                        data: {
+                            "nickname": nickname
+                        },
+                        success: function (r) {
+                            if (r == "success") {
+                                alert("닉네임 중복확인 완료");
+                                $("#nick_chk1").css({
+                                    "display": "none"
+                                });
+                                $("#nick_chk2").css({
+                                    "display": "none"
+                                });
+                                $("#nick_chk3").css({
+                                    "display": "none"
+                                });
+                                nickCheck = true;
+                            }
+                            else {
+                                alert("중복확인 실패");
+                                $("#nick_chk3").css({
+                                    "display": "block"
+                                });
+                            }
+                        }
                     });
-                    $("#nick_chk2").css({
-                        "display": "none"
-                    });
-                    nickCheck = true;
                 }
             });
 
@@ -338,26 +366,26 @@
             });
 
         // 주소
-        $("#address").on("focusout",
-            function () {
-                var address = $("#address").val();
-                if (address == "") {
-                    $("#addr_chk1").css({
-                        "display": "block"
-                    });
-                    addrCheck = false;
-                }
-                else {
-                    // 주소 찾기 api 추가
-                    // 주소 찾은 이후에 수정 할 수 없게 추가
-                    $("#addr_chk1").css({
-                        "display": "none"
-                    });
-                    addrCheck = true;
-                }
-            });
+        // $("#address").on("focusout",
+        //     function () {
+        //         var address = $("#address").val();
+        //         if (address == "") {
+        //             $("#addr_chk1").css({
+        //                 "display": "block"
+        //             });
+        //             addrCheck = false;
+        //         }
+        //         else {
+        //             // 주소 찾기 api 추가
+        //             // 주소 찾은 이후에 수정 할 수 없게 추가
+        //             $("#addr_chk1").css({
+        //                 "display": "none"
+        //             });
+        //             addrCheck = true;
+        //         }
+        //     });
 
-        // 강아지 이름
+        // 펫 이름
         $("#petName").on("focusout",
             function () {
                 var petName = $("#petName").val();
@@ -392,10 +420,10 @@
             });
     });
 
-    // 강아지 유무
+    // 반려동물 유무
     function check_YN() {
         var yn = $("input[type=radio][name=petYN]:checked").val();
-        if (yn == "yes") {
+        if (yn == "Y") {
             $("#add_info").css({
                 "display": "block"
             });
@@ -413,7 +441,7 @@
         });
     }
 
-    // 강아지 견종
+    // 반려동물 종류
     function check_myPet() {
         var dog = $("input[type=radio][name=petCategory]:checked");
         if (dog.length < 1) {
@@ -429,7 +457,7 @@
         petCategoryCheck = true;
     }
 
-    // 추천 받고 싶은 견종
+    // 추천받길 원하는 펫
     $("input[type=checkbox][name=wantPet]").change(function () {
         var checkList = $("input[type=checkbox][name=wantPet]:checked");
         if ($(this).is(':checked')) {
@@ -456,33 +484,43 @@
         }
     });
 
-    $("input[type=checkbox][name=wantPetAll]").change(function () {
-        var checkList = $("input[type=checkbox][name=wantPet]:checked");
-        if ($(this).is(':checked')) {
-            if (checkList.length > 0) {
-                alert("모두를 선택하시면 다른 선택지가 초기화됩니다.");
-                $("input:checkbox[name='wantPet']").prop("checked", false);
-            }
-            wantPetCheck = true;
-            alert("헤이2");
-            $("#want_pet_chk1").css({
-                "display": "none"
-            });
-        }
-        if (checkList.length < 1 && $("input[type=checkbox][name=wantPetAll]:checked").length < 1) {
-            $("#want_pet_chk1").css({
-                "display": "block"
-            });
-        }
-    });
-
     function lastCheck() {
         if (petYNValue == "Y") {
             if (idCheck == false || pwCheck == false || pwMoreCheck == false || nickCheck == false
-                || emailCheck == false || addrCheck == false || petYNCheck == false || petNameCheck == false
+                || emailCheck == false || /*addrCheck == false ||*/ petYNCheck == false || petNameCheck == false
                 || petCategoryCheck == false || wantPetCheck == false) {
+                if (idCheck == false) {
+                    $("#id_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (pwCheck == false) {
+                    $("#pw_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (pwMoreCheck == false) {
+                    $("#pw_more_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (nickCheck == false) {
+                    $("#nick_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (emailCheck == false) {
+                    $("#petName_chk1").css({
+                        "display": "block"
+                    });
+                }
                 if (petYNCheck == false) {
                     $("#petYN_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (petNameCheck == false) {
+                    $("#petName_chk1").css({
                         "display": "block"
                     });
                 }
@@ -506,7 +544,52 @@
         }
         else {
             if (idCheck == false || pwCheck == false || pwMoreCheck == false || nickCheck == false
-                || emailCheck == false || addrCheck == false || wantPetCheck == false) {
+                || emailCheck == false || /*addrCheck == false ||*/ wantPetCheck == false) {
+                if (idCheck == false) {
+                    $("#id_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (pwCheck == false) {
+                    $("#pw_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (pwMoreCheck == false) {
+                    $("#pw_more_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (nickCheck == false) {
+                    $("#nick_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (emailCheck == false) {
+                    $("#petName_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (petYNCheck == false) {
+                    $("#petYN_chk1").css({
+                        "display": "block"
+                    });
+                }
+                // if (petNameCheck == false) {
+                //     $("#petName_chk1").css({
+                //         "display": "block"
+                //     });
+                // }
+                // if (petCategoryCheck == false) {
+                //     $("#petCategory_chk1").css({
+                //         "display": "block"
+                //     });
+                // }
+                if (wantPetCheck == false) {
+                    $("#want_pet_chk1").css({
+                        "display": "block"
+                    });
+                }
                 alert("잘못입력된 항목이 있습니다. 다시 확인해주세요");
                 return;
             }
