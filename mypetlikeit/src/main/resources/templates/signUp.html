@@ -538,7 +538,7 @@
                 return;
             }
             else {
-                $("#frm").attr("action", "/signup");
+                $("#frm").attr("action", "/signup/success");
                 $("#frm").submit();
             }
         }
@@ -594,8 +594,20 @@
                 return;
             }
             else {
-                $("#frm").attr("action", "/signup");
-                $("#frm").submit();
+                $.ajax({
+                        url: '/signup/success',
+                        type: 'post',
+                        // dataType:'json',
+                        data: $("#frm"),
+                        success: function (r) {
+                            if (r.fail !=null) {
+                                alert("잘못 입력된 항목이 있습니다. 다시 확인해주세요");
+                            }
+                            else {
+                                location.href("signUpSuccess.html");
+                            }
+                        }
+                    });
             }
         }
     }

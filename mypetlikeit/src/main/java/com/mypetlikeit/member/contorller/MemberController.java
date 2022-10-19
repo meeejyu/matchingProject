@@ -1,6 +1,8 @@
 package com.mypetlikeit.member.contorller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,13 +35,28 @@ public class MemberController {
         return "signUp";
     }
 
-    @PostMapping("/signup")
-    public String signUp_insert(Member member) {
+    @PostMapping("/signup/success")
+    public Map<String, Object> signUp_success(Member member) {
         
+        Map<String, Object> resultMap = new HashMap<>();
+        // 회원가입 유효성 검증 추가
+        // member
+        if(member.getPetYN().equals("Y")) {
+            if(member.getPetName()==null) {
+                resultMap.put("fail", "펫 이름을 입력하지 않았습니다.");
+                return resultMap;
+            };
+            if(member.getPetCategory()==null) {
+                resultMap.put("fail", "펫 종류를 입력하지 않았습니다.");
+                return resultMap;
+            };
+        }
+
         System.out.println("값이 잘오나 확인"+member.toString());
         memberService.memberSave(member);
+        resultMap.put("success", "회원가입 성공");
         System.out.println("성공");
-        return "signUpSuccess";
+        return resultMap;
     }
 
     @PostMapping("/member/idCheck")

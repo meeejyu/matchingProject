@@ -1,6 +1,8 @@
 package com.mypetlikeit.domain;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -12,15 +14,19 @@ public class Member {
     private long id;
 
     @NotEmpty
+    @Pattern(regexp = "/^[a-zA-Z0-9]{5,20}$/")
     private String loginId;
 
     @NotEmpty
+    @Pattern(regexp = "/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/")
     private String password;
 
     @NotEmpty
+    @Pattern(regexp = "/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|0-9|]+$/")
     private String nickname;
 
     @NotEmpty
+    @Email(message = "이메일 형식에 맞지 않습니다.")
     private String email;
 
     // @NotEmpty
@@ -29,6 +35,7 @@ public class Member {
     // @NotEmpty
     // private String address;
 
+    @NotEmpty
     private String petYN;
 
     // @NotEmpty
