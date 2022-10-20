@@ -35,11 +35,12 @@ public class MemberController {
         return "signUp";
     }
 
-    @PostMapping("/signup/success")
-    public Map<String, Object> signUp_success(Member member) {
+    @PostMapping("/signup/check")
+    public @ResponseBody Map<String, Object> signUp_check(Member member) {
         
         Map<String, Object> resultMap = new HashMap<>();
         // 회원가입 유효성 검증 추가
+
         // member
         if(member.getPetYN().equals("Y")) {
             if(member.getPetName()==null) {
@@ -53,10 +54,15 @@ public class MemberController {
         }
 
         System.out.println("값이 잘오나 확인"+member.toString());
-        memberService.memberSave(member);
         resultMap.put("success", "회원가입 성공");
         System.out.println("성공");
         return resultMap;
+    }
+
+    @PostMapping("/signup/success")
+    public String signUp_success(Member member) {
+        memberService.memberSave(member);
+        return "signUpSuccess";
     }
 
     @PostMapping("/member/idCheck")
@@ -72,7 +78,6 @@ public class MemberController {
             System.out.println("실패");
             return "fail";
         }
-        // return "signUpSuccess";
     }
 
     @PostMapping("/member/nickCheck")

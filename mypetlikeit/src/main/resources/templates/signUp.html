@@ -538,8 +538,27 @@
                 return;
             }
             else {
-                $("#frm").attr("action", "/signup/success");
-                $("#frm").submit();
+                var id = $("#loginId").val();
+                // var formData = new FormData($("#frm")[0]);
+                var form = $("#frm").serialize();
+                $.ajax({
+                    url: '/signup/check',
+                    type: 'post',
+                    data: 
+                    {"loginId" : id}
+                    ,
+                    // dataType:'json',
+                    // data: form,
+                    success: function (r) {
+                        if (r.fail !=null) {
+                            alert("잘못 입력된 항목이 있습니다. 다시 확인해주세요");
+                        }
+                        else {
+                            $("#frm").attr("action", "/signup/success");
+                            $("#frm").submit();
+                        }
+                    }
+                });
             }
         }
         else {
@@ -594,20 +613,27 @@
                 return;
             }
             else {
+                var id = $("#loginId").val();
+                // var formData = new FormData($("#frm")[0]);
+                var form = $("#frm").serialize();
                 $.ajax({
-                        url: '/signup/success',
-                        type: 'post',
-                        // dataType:'json',
-                        data: $("#frm"),
-                        success: function (r) {
-                            if (r.fail !=null) {
-                                alert("잘못 입력된 항목이 있습니다. 다시 확인해주세요");
-                            }
-                            else {
-                                location.href("signUpSuccess.html");
-                            }
+                    url: '/signup/check',
+                    type: 'post',
+                    data: 
+                    {"loginId" : id}
+                    ,
+                    // dataType:'json',
+                    // data: form,
+                    success: function (r) {
+                        if (r.fail !=null) {
+                            alert("잘못 입력된 항목이 있습니다. 다시 확인해주세요");
                         }
-                    });
+                        else {
+                            $("#frm").attr("action", "/signup/success");
+                            $("#frm").submit();
+                        }
+                    }
+                });
             }
         }
     }
