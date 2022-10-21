@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,7 +39,7 @@ public class MemberController {
     }
 
     @PostMapping("/signup/check")
-    public @ResponseBody Map<String, Object> signUp_check(Member member) {
+    public @ResponseBody Map<String, Object> signUp_check(Member member, Errors errors, Model model) {
         
         Map<String, Object> resultMap = new HashMap<>();
         // 회원가입 유효성 검증 추가
@@ -51,6 +54,11 @@ public class MemberController {
                 resultMap.put("fail", "펫 종류를 입력하지 않았습니다.");
                 return resultMap;
             };
+        }
+        
+        for(FieldError error : errors.getFieldErrors()) {
+            String validKeyName = String.format("valid_%s", error.getField());
+            resultMap.put(validKeyName, error.getDefaultMessage());
         }
 
         System.out.println("값이 잘오나 확인"+member.toString());
