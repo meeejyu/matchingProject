@@ -37,13 +37,13 @@
 </style>
 
 <body>
-    <form method="post" id="frm">
+    <form method="post" id="frm" modelAttribute="memberInsertDto">
         <div class="container">
             <h1>회원가입</h1>
             <div class="form-group">
                 <label for="loginId">아이디</label>
                 <input type="text" class="form-control" id="loginId" name="loginId" placeholder="영문 소문자 + 숫자 (5~20자)"
-                    maxlength="20" value="00">
+                    maxlength="20" value="00" th:value="${memberInsertDto?.loginId}">
                 <span class="id_chk1" id="id_chk1" style="display: none;">필수 항목입니다.</span>
                 <span class="id_chk2" id="id_chk2" style="display: none;">아이디는 5~20자이고, 영문 소문자와 숫자만 사용가능합니다.</span>
                 <span class="id_chk3" id="id_chk3" style="display: none;">이미 존재하는 아이디 입니다.</span>
@@ -51,7 +51,7 @@
             <div class="form-group">
                 <label for="password">비밀번호</label>
                 <input type="password" class="form-control" id="password" name="password"
-                    placeholder="영문 + 숫자 + 특수문자(8~16자)" maxlength="16" value="00">
+                    placeholder="영문 + 숫자 + 특수문자(8~16자)" maxlength="16" value="00" th:value="${memberInsertDto?.password}">
                 <span class="pw_chk1" id="pw_chk1" style="display: none;">필수 항목입니다.</span>
                 <span class="pw_chk2" id="pw_chk2" style="display: none;">비밀번호는 영문 대 소문자, 숫자, 특수문자를 모두 사용한 8~16자만
                     가능합니다.</span>
@@ -59,20 +59,21 @@
             <div class="form-group">
                 <label for="more_password">비밀번호 재확인</label>
                 <input type="password" class="form-control" id="more_password" name="more_password" maxlength="16"
-                    value="00">
+                    value="00" th:value="${memberInsertDto?.more_password}">
                 <span class="pw_more_chk1" id="pw_more_chk1" style="display: none;">필수 항목입니다.</span>
                 <span class="pw_more_chk2" id="pw_more_chk2" style="display: none;">비밀번호가 일치하지 않습니다</span>
             </div>
             <div class="form-group">
                 <label for="nickname">닉네임</label>
-                <input type="text" class="form-control" id="nickname" name="nickname" value="00" maxlength="20">
+                <input type="text" class="form-control" id="nickname" name="nickname" value="00" maxlength="20" th:value="${memberInsertDto?.nickname}">
                 <span class="nick_chk1" id="nick_chk1" style="display: none;">필수 항목입니다.</span>
                 <span class="nick_chk2" id="nick_chk2" style="display: none;">한글, 영어 대소문자, 숫자만 사용할 수 있습니다(20자 제한)</span>
                 <span class="nick_chk3" id="nick_chk3" style="display: none;">이미 존재하는 닉네임 입니다.</span>
             </div>
             <div class="form-group">
                 <label for="email">이메일</label>
-                <input type="text" class="form-control" id="email" name="email" value="00">
+                <input type="text" class="form-control" id="email" name="email" value="00" th:value="${memberInsertDto?.email}">
+                <span th:text="${valid_email}"></span>
                 <span class="email_chk1" id="email_chk1" style="display: none;">필수 항목입니다.</span>
                 <span class="email_chk2" id="email_chk2" style="display: none;">이메일 형식이 잘못되었습니다</span>
             </div>
@@ -97,7 +98,7 @@
             <div class="add_info" id="add_info" style="display: none;">
                 <div class="form-group">
                     <label for="petName">펫 이름</label>
-                    <input type="text" class="form-control" id="petName" name="petName" value="00">
+                    <input type="text" class="form-control" id="petName" name="petName" value="00" th:value="${memberInsertDto?.petName}">
                     <span class="petName_chk1" id="petName_chk1" style="display: none;">필수 항목입니다.</span>
                     <span class="petName_chk2" id="petName_chk2" style="display: none;">한글, 영어만 사용 가능합니다.</span>
                 </div>
@@ -178,7 +179,7 @@
                         },
                         success: function (r) {
                             if (r == "success") {
-                                alert("아이디 중복확인 완료");
+                                // alert("아이디 중복확인 완료");
                                 $("#id_chk1").css({
                                     "display": "none"
                                 });
@@ -191,7 +192,7 @@
                                 idCheck = true;
                             }
                             else {
-                                alert("중복확인 실패");
+                                // alert("중복확인 실패");
                                 $("#id_chk3").css({
                                     "display": "block"
                                 });
@@ -486,69 +487,69 @@
 
     function lastCheck() {
         if (petYNValue == "Y") {
-            if (idCheck == false || pwCheck == false || pwMoreCheck == false || nickCheck == false
-                || emailCheck == false || /*addrCheck == false ||*/ petYNCheck == false || petNameCheck == false
-                || petCategoryCheck == false || wantPetCheck == false) {
-                if (idCheck == false) {
-                    $("#id_chk1").css({
-                        "display": "block"
-                    });
-                }
-                if (pwCheck == false) {
-                    $("#pw_chk1").css({
-                        "display": "block"
-                    });
-                }
-                if (pwMoreCheck == false) {
-                    $("#pw_more_chk1").css({
-                        "display": "block"
-                    });
-                }
-                if (nickCheck == false) {
-                    $("#nick_chk1").css({
-                        "display": "block"
-                    });
-                }
-                if (emailCheck == false) {
-                    $("#petName_chk1").css({
-                        "display": "block"
-                    });
-                }
-                if (petYNCheck == false) {
-                    $("#petYN_chk1").css({
-                        "display": "block"
-                    });
-                }
-                if (petNameCheck == false) {
-                    $("#petName_chk1").css({
-                        "display": "block"
-                    });
-                }
-                if (petCategoryCheck == false) {
-                    $("#petCategory_chk1").css({
-                        "display": "block"
-                    });
-                }
-                if (wantPetCheck == false) {
-                    $("#want_pet_chk1").css({
-                        "display": "block"
-                    });
-                }
-                alert("잘못입력된 항목이 있습니다. 다시 확인해주세요");
-                return;
-            }
-            else {
-                var id = $("#loginId").val();
+            // if (idCheck == false || pwCheck == false || pwMoreCheck == false || nickCheck == false
+            //     || emailCheck == false || /*addrCheck == false ||*/ petYNCheck == false || petNameCheck == false
+            //     || petCategoryCheck == false || wantPetCheck == false) {
+            //     if (idCheck == false) {
+            //         $("#id_chk1").css({
+            //             "display": "block"
+            //         });
+            //     }
+            //     if (pwCheck == false) {
+            //         $("#pw_chk1").css({
+            //             "display": "block"
+            //         });
+            //     }
+            //     if (pwMoreCheck == false) {
+            //         $("#pw_more_chk1").css({
+            //             "display": "block"
+            //         });
+            //     }
+            //     if (nickCheck == false) {
+            //         $("#nick_chk1").css({
+            //             "display": "block"
+            //         });
+            //     }
+            //     if (emailCheck == false) {
+            //         $("#petName_chk1").css({
+            //             "display": "block"
+            //         });
+            //     }
+            //     if (petYNCheck == false) {
+            //         $("#petYN_chk1").css({
+            //             "display": "block"
+            //         });
+            //     }
+            //     if (petNameCheck == false) {
+            //         $("#petName_chk1").css({
+            //             "display": "block"
+            //         });
+            //     }
+            //     if (petCategoryCheck == false) {
+            //         $("#petCategory_chk1").css({
+            //             "display": "block"
+            //         });
+            //     }
+            //     if (wantPetCheck == false) {
+            //         $("#want_pet_chk1").css({
+            //             "display": "block"
+            //         });
+            //     }
+            //     alert("잘못입력된 항목이 있습니다. 다시 확인해주세요");
+            //     return;
+            // }
+            // else {
+                // var id = $("#loginId").val();
                 // var formData = new FormData($("#frm")[0]);
                 var form = $("#frm").serialize();
                 $.ajax({
                     url: '/signup/check',
                     type: 'post',
-                    data: 
-                    {"loginId" : id}
-                    ,
-                    // dataType:'json',
-                    // data: form,
+                    // data: 
+                    // {"loginId" : id}
+                    // ,
+                    dataType:'json',
+                    data: form,
                     success: function (r) {
                         if (r.fail !=null) {
                             alert("잘못 입력된 항목이 있습니다. 다시 확인해주세요");
@@ -559,71 +560,61 @@
                         }
                     }
                 });
-            }
+            // }
         }
         else {
-            if (idCheck == false || pwCheck == false || pwMoreCheck == false || nickCheck == false
-                || emailCheck == false || /*addrCheck == false ||*/ wantPetCheck == false) {
-                if (idCheck == false) {
-                    $("#id_chk1").css({
-                        "display": "block"
-                    });
-                }
-                if (pwCheck == false) {
-                    $("#pw_chk1").css({
-                        "display": "block"
-                    });
-                }
-                if (pwMoreCheck == false) {
-                    $("#pw_more_chk1").css({
-                        "display": "block"
-                    });
-                }
-                if (nickCheck == false) {
-                    $("#nick_chk1").css({
-                        "display": "block"
-                    });
-                }
-                if (emailCheck == false) {
-                    $("#petName_chk1").css({
-                        "display": "block"
-                    });
-                }
-                if (petYNCheck == false) {
-                    $("#petYN_chk1").css({
-                        "display": "block"
-                    });
-                }
-                // if (petNameCheck == false) {
-                //     $("#petName_chk1").css({
-                //         "display": "block"
-                //     });
-                // }
-                // if (petCategoryCheck == false) {
-                //     $("#petCategory_chk1").css({
-                //         "display": "block"
-                //     });
-                // }
-                if (wantPetCheck == false) {
-                    $("#want_pet_chk1").css({
-                        "display": "block"
-                    });
-                }
-                alert("잘못입력된 항목이 있습니다. 다시 확인해주세요");
-                return;
-            }
-            else {
-                var id = $("#loginId").val();
+            // if (idCheck == false || pwCheck == false || pwMoreCheck == false || nickCheck == false
+            //     || emailCheck == false || /*addrCheck == false ||*/ wantPetCheck == false) {
+            //     if (idCheck == false) {
+            //         $("#id_chk1").css({
+            //             "display": "block"
+            //         });
+            //     }
+            //     if (pwCheck == false) {
+            //         $("#pw_chk1").css({
+            //             "display": "block"
+            //         });
+            //     }
+            //     if (pwMoreCheck == false) {
+            //         $("#pw_more_chk1").css({
+            //             "display": "block"
+            //         });
+            //     }
+            //     if (nickCheck == false) {
+            //         $("#nick_chk1").css({
+            //             "display": "block"
+            //         });
+            //     }
+            //     if (emailCheck == false) {
+            //         $("#petName_chk1").css({
+            //             "display": "block"
+            //         });
+            //     }
+            //     if (petYNCheck == false) {
+            //         $("#petYN_chk1").css({
+            //             "display": "block"
+            //         });
+            //     }
+            //     if (wantPetCheck == false) {
+            //         $("#want_pet_chk1").css({
+            //             "display": "block"
+            //         });
+            //     }
+            //     alert("잘못입력된 항목이 있습니다. 다시 확인해주세요");
+            //     return;
+            // }
+            // else {
+                // var id = $("#loginId").val();
                 // var formData = new FormData($("#frm")[0]);
                 var form = $("#frm").serialize();
                 $.ajax({
                     url: '/signup/check',
                     type: 'post',
-                    data: 
-                    {"loginId" : id}
-                    ,
-                    // dataType:'json',
-                    // data: form,
+                    // data: 
+                    // {"loginId" : id}
+                    // ,
+                    dataType:'json',
+                    data: form,
                     success: function (r) {
                         if (r.fail !=null) {
                             alert("잘못 입력된 항목이 있습니다. 다시 확인해주세요");
@@ -634,7 +625,7 @@
                         }
                     }
                 });
-            }
+            // }
         }
     }
 

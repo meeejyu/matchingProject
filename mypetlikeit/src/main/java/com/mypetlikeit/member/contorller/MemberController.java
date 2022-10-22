@@ -4,15 +4,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mypetlikeit.comm.validation.ValidationSequence;
 import com.mypetlikeit.domain.Member;
+import com.mypetlikeit.domain.MemberInsertDto;
 import com.mypetlikeit.member.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -39,29 +46,49 @@ public class MemberController {
     }
 
     @PostMapping("/signup/check")
-    public @ResponseBody Map<String, Object> signUp_check(Member member, Errors errors, Model model) {
-        
+    public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, Errors errors, Model model, BindingResult bindingResult) {
+
         Map<String, Object> resultMap = new HashMap<>();
         // 회원가입 유효성 검증 추가
 
+        // if(errors.hasErrors()) {
+
+            model.addAttribute("memberInsertDto", memberInsertDto);
+
+            // if(bindingResult.hasErrors()) {
+                
+                // List<FieldError> errors = bindingResult.getFieldErrors();
+                // List<FieldError> errors = bindingResult.getAllErrors();
+                for(FieldError error : errors.getFieldErrors()){
+                    System.out.println("에러 필드명 가져오기1 : "+error.getField());
+                    System.out.println("에러 필드명 가져오기2 : "+error.getDefaultMessage());
+                }
+            // }
+
+            // for(FieldError error : errors.getFieldErrors()) {
+            //     String validKeyName = String.format("valid_%s", error.getField());
+            //     System.out.println("키 이름 : "+validKeyName);
+            //     System.out.println("벨류 이름 : " + error.getDefaultMessage());
+                // model.addAttribute(validKeyName, error.getDefaultMessage());
+                // resultMap.put(validKeyName, error.getDefaultMessage());
+                // model.addAttribute("memberInsertDto", resultMap);
+            // }
+            // return resultMap;
+        // }
+
         // member
-        if(member.getPetYN().equals("Y")) {
-            if(member.getPetName()==null) {
+        if(memberInsertDto.getPetYN().equals("Y")) {
+            if(memberInsertDto.getPetName()==null) {
                 resultMap.put("fail", "펫 이름을 입력하지 않았습니다.");
                 return resultMap;
             };
-            if(member.getPetCategory()==null) {
+            if(memberInsertDto.getPetCategory()==null) {
                 resultMap.put("fail", "펫 종류를 입력하지 않았습니다.");
                 return resultMap;
             };
         }
         
-        for(FieldError error : errors.getFieldErrors()) {
-            String validKeyName = String.format("valid_%s", error.getField());
-            resultMap.put(validKeyName, error.getDefaultMessage());
-        }
-
-        System.out.println("값이 잘오나 확인"+member.toString());
+        System.out.println("값이 잘오나 확인"+memberInsertDto.toString());
         resultMap.put("success", "회원가입 성공");
         System.out.println("성공");
         return resultMap;
