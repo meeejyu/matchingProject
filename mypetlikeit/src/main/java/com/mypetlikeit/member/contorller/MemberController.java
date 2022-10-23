@@ -47,6 +47,7 @@ public class MemberController {
 
     @PostMapping("/signup/check")
     public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, Errors errors, Model model, BindingResult bindingResult) {
+    // public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, Model model, BindingResult bindingResult) {
 
         Map<String, Object> resultMap = new HashMap<>();
         // 회원가입 유효성 검증 추가
@@ -55,8 +56,19 @@ public class MemberController {
 
             model.addAttribute("memberInsertDto", memberInsertDto);
 
+
+            // if (bindingResult.hasErrors()) {
+            //     return bindingResult.getFieldErrors().toString();
+            // }
+            // else{
+            //     return "유효성 검증에서 통과하였습니다";
+            // }
+
             // if(bindingResult.hasErrors()) {
-                
+
+            // }
+
+            // if(bindingResult.hasErrors()) {
                 // List<FieldError> errors = bindingResult.getFieldErrors();
                 // List<FieldError> errors = bindingResult.getAllErrors();
                 for(FieldError error : errors.getFieldErrors()){
