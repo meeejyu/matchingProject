@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.apache.ibatis.binding.BindingException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -46,64 +47,36 @@ public class MemberController {
     }
 
     @PostMapping("/signup/check")
-    public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, Errors errors, Model model, BindingResult bindingResult) {
-    // public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, Model model, BindingResult bindingResult) {
+    // public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, Errors errors, Model model, BindingResult bindingResult) {
+    public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, Model model, Errors errors, Exception exception) throws Exception {
+
+        System.out.println("값이 잘 넘어오나 테스트 : "+memberInsertDto.toString());
+
+        // if (bindingResult.hasErrors()) {
+        //     System.out.println("에러 출력 : "+bindingResult.getFieldErrors().toString());
+        // }
 
         Map<String, Object> resultMap = new HashMap<>();
 
-        // Map<String, Object> map = new HashMap<>();
-        // 회원가입 유효성 검증 추가
 
-        // if(errors.hasErrors()) {
-
-            System.out.println("값이 잘 넘어오나 테스트 : "+memberInsertDto.toString());
-            // model.addAttribute("memberInsertDto", memberInsertDto);
-
-
-            // if (bindingResult.hasErrors()) {
-            //     return bindingResult.getFieldErrors().toString();
-            // }
-            // else{
-            //     return "유효성 검증에서 통과하였습니다";
-            // }
-
-            // if(bindingResult.hasErrors()) {
-
-            // }
-
-            // if(bindingResult.hasErrors()) {
-                // List<FieldError> errors = bindingResult.getFieldErrors();
-                // List<FieldError> errors = bindingResult.getAllErrors();
-                for(FieldError error : errors.getFieldErrors()){
-                    System.out.println("에러 필드명 가져오기1 : "+error.getField());
-                    System.out.println("에러 필드명 가져오기2 : "+error.getDefaultMessage());
-                }
-            // }
-
-            // for(FieldError error : errors.getFieldErrors()) {
-            //     String validKeyName = String.format("valid_%s", error.getField());
-            //     System.out.println("키 이름 : "+validKeyName);
-            //     System.out.println("벨류 이름 : " + error.getDefaultMessage());
-                // model.addAttribute(validKeyName, error.getDefaultMessage());
-                // resultMap.put(validKeyName, error.getDefaultMessage());
-                // model.addAttribute("memberInsertDto", resultMap);
-            // }
-            // return resultMap;
-        // }
-
-        // member
-        if(memberInsertDto.getPetYN().equals("Y")) {
-            if(memberInsertDto.getPetName()==null) {
-                resultMap.put("fail", "펫 이름을 입력하지 않았습니다.");
-                return resultMap;
-            };
-            if(memberInsertDto.getPetCategory()==null) {
-                resultMap.put("fail", "펫 종류를 입력하지 않았습니다.");
-                return resultMap;
-            };
+        for(FieldError error : errors.getFieldErrors()){
+            System.out.println("에러 필드명 가져오기1 : "+error.getField());
+            System.out.println("에러 필드명 가져오기2 : "+error.getDefaultMessage());
         }
+
+        // // member
+        // if(memberInsertDto.getPetYN().equals("Y")) {
+        //     if(memberInsertDto.getPetName()==null) {
+        //         resultMap.put("fail", "펫 이름을 입력하지 않았습니다.");
+        //         return resultMap;
+        //     };
+        //     if(memberInsertDto.getPetCategory()==null) {
+        //         resultMap.put("fail", "펫 종류를 입력하지 않았습니다.");
+        //         return resultMap;
+        //     };
+        // }
         
-        System.out.println("값이 잘오나 확인"+memberInsertDto.toString());
+        // System.out.println("값이 잘오나 확인"+memberInsertDto.toString());
         resultMap.put("success", "회원가입 성공");
         System.out.println("성공");
         return resultMap;

@@ -38,7 +38,7 @@ public class MemberInsertDto {
     // @NotBlank
     // private String address;
 
-    @NotBlank(message = "펫 유무를는 필수값입니다.")
+    @NotBlank(message = "펫 유무를는 필수값입니다.", groups = ValidationGroups.NotBlankGroup.class)
     private String petYN;
 
     // @NotBlank
@@ -47,7 +47,7 @@ public class MemberInsertDto {
     // @NotBlank
     private String petCategory;
 
-    @NotBlank(message = "원하는 펫 종류를 골라주세요. 필수값입니다.")
+    @NotBlank(message = "원하는 펫 종류를 골라주세요. 필수값입니다.", groups = ValidationGroups.NotBlankGroup.class)
     private String wantPet;
 
     public MemberInsertDto( /* long id, */
