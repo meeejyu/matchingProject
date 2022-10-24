@@ -46,47 +46,12 @@ public class MemberController {
     }
 
     @PostMapping("/signup/check")
-    public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, Errors errors, Model model, BindingResult bindingResult) {
+    public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, Model model) {
     // public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, Model model, BindingResult bindingResult) {
 
         Map<String, Object> resultMap = new HashMap<>();
-        // 회원가입 유효성 검증 추가
 
-        // if(errors.hasErrors()) {
-
-            model.addAttribute("memberInsertDto", memberInsertDto);
-
-
-            // if (bindingResult.hasErrors()) {
-            //     return bindingResult.getFieldErrors().toString();
-            // }
-            // else{
-            //     return "유효성 검증에서 통과하였습니다";
-            // }
-
-            // if(bindingResult.hasErrors()) {
-
-            // }
-
-            // if(bindingResult.hasErrors()) {
-                // List<FieldError> errors = bindingResult.getFieldErrors();
-                // List<FieldError> errors = bindingResult.getAllErrors();
-                for(FieldError error : errors.getFieldErrors()){
-                    System.out.println("에러 필드명 가져오기1 : "+error.getField());
-                    System.out.println("에러 필드명 가져오기2 : "+error.getDefaultMessage());
-                }
-            // }
-
-            // for(FieldError error : errors.getFieldErrors()) {
-            //     String validKeyName = String.format("valid_%s", error.getField());
-            //     System.out.println("키 이름 : "+validKeyName);
-            //     System.out.println("벨류 이름 : " + error.getDefaultMessage());
-                // model.addAttribute(validKeyName, error.getDefaultMessage());
-                // resultMap.put(validKeyName, error.getDefaultMessage());
-                // model.addAttribute("memberInsertDto", resultMap);
-            // }
-            // return resultMap;
-        // }
+        model.addAttribute("memberInsertDto", memberInsertDto);
 
         // member
         if(memberInsertDto.getPetYN().equals("Y")) {
