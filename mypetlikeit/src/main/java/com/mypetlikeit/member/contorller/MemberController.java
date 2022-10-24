@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mypetlikeit.comm.exception.ErrorResponse;
 import com.mypetlikeit.comm.validation.ValidationSequence;
 import com.mypetlikeit.domain.Member;
 import com.mypetlikeit.domain.MemberInsertDto;
@@ -30,6 +31,8 @@ import lombok.RequiredArgsConstructor;
 public class MemberController {
     
     private final MemberService memberService;
+
+    private ErrorResponse errorResponse;
 
     @GetMapping("/member")
     public String member() {
@@ -46,35 +49,101 @@ public class MemberController {
     }
 
     @PostMapping("/signup/check")
-    public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, Model model) {
+    public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, BindingResult bindingResult, Model model) {
     // public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, Model model, BindingResult bindingResult) {
 
         Map<String, Object> resultMap = new HashMap<>();
+        Map<String, Object> errorMap = new HashMap<>();
 
         model.addAttribute("memberInsertDto", memberInsertDto);
 
-        // member
-        if(memberInsertDto.getPetYN().equals("Y")) {
-            if(memberInsertDto.getPetName()==null) {
-                resultMap.put("fail", "펫 이름을 입력하지 않았습니다.");
-                return resultMap;
-            };
-            if(memberInsertDto.getPetCategory()==null) {
-                resultMap.put("fail", "펫 종류를 입력하지 않았습니다.");
-                return resultMap;
-            };
+        if(bindingResult.hasErrors()) {
+            // for(FieldError error : bindingResult.getFieldError()) {
+
+            // }
+            // System.out.println("바인딩 에러 요놈 잡았다1 : "+bindingResult.getAllErrors().toString());
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            
+            // System.out.println("필드 나와라 : "+ bindingResult.getFieldError());
+            for(ObjectError error : errors) {
+                
+                FieldError err = (FieldError) error;
+                // System.out.println("일단 코드 : "+err.getField());
+                // System.out.println("일단 메시지 : "+error.getDefaultMessage());
+
+                errorMap.put("valid_" + err.getField(), error.getDefaultMessage());
+                model.addAttribute("valid_" + err.getField(), error.getDefaultMessage());
+            }
+            return errorMap;
         }
-        
-        System.out.println("값이 잘오나 확인"+memberInsertDto.toString());
-        resultMap.put("success", "회원가입 성공");
-        System.out.println("성공");
-        return resultMap;
+        else {
+            // member PetYN 값을 통해 이름과 펫종류 예외 처리
+            if(memberInsertDto.getPetYN().equals("Y")) {
+                if(memberInsertDto.getPetName()==null) {
+                    resultMap.put("fail", "펫 이름을 입력하지 않았습니다.");
+                    return resultMap;
+                };
+                if(memberInsertDto.getPetCategory()==null) {
+                    resultMap.put("fail", "펫 종류를 입력하지 않았습니다.");
+                    return resultMap;
+                };
+            }
+            
+            System.out.println("값이 잘오나 확인"+memberInsertDto.toString());
+            resultMap.put("success", "회원가입 성공");
+            System.out.println("성공");
+            return resultMap;
+        }
     }
 
     @PostMapping("/signup/success")
-    public String signUp_success(Member member) {
-        memberService.memberSave(member);
-        return "signUpSuccess";
+    public String signUp_success(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, BindingResult bindingResult, Model model) {
+
+        Map<String, Object> resultMap = new HashMap<>();
+        Map<String, Object> errorMap = new HashMap<>();
+
+        model.addAttribute("memberInsertDto", memberInsertDto);
+
+        if(bindingResult.hasErrors()) {
+            // for(FieldError error : bindingResult.getFieldError()) {
+
+            // }
+            // System.out.println("바인딩 에러 요놈 잡았다1 : "+bindingResult.getAllErrors().toString());
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            
+            // System.out.println("필드 나와라 : "+ bindingResult.getFieldError());
+            for(ObjectError error : errors) {
+                
+                FieldError err = (FieldError) error;
+                // System.out.println("일단 코드 : "+err.getField());
+                // System.out.println("일단 메시지 : "+error.getDefaultMessage());
+
+                // errorMap.put("valid_" + err.getField(), error.getDefaultMessage());
+                // model.addAttribute("valid_" + err.getField(), error.getDefaultMessage());
+            }
+            return "signUp";
+        }
+        else {
+            // member PetYN 값을 통해 이름과 펫종류 예외 처리
+            if(memberInsertDto.getPetYN().equals("Y")) {
+                if(memberInsertDto.getPetName()==null) {
+                    resultMap.put("fail", "펫 이름을 입력하지 않았습니다.");
+                    return "signUp";
+                };
+                if(memberInsertDto.getPetCategory()==null) {
+                    resultMap.put("fail", "펫 종류를 입력하지 않았습니다.");
+                    return "signUp";
+                };
+            }
+            
+            System.out.println("값이 잘오나 확인"+memberInsertDto.toString());
+            resultMap.put("success", "회원가입 성공");
+            System.out.println("성공");
+            return "signUp";
+        }
+
+        // memberService.memberSave(member);
+        // return "signUpSuccess";
     }
 
     @PostMapping("/member/idCheck")

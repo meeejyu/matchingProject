@@ -37,13 +37,15 @@
 </style>
 
 <body>
-    <form method="post" id="frm" modelAttribute="memberInsertDto">
+    <!-- <span th:text="${valid_loginId}"></span> -->
+    <form method="post" id="frm" th:object="${memberInsertDto}">
         <div class="container">
             <h1>회원가입</h1>
             <div class="form-group">
                 <label for="loginId">아이디</label>
                 <input type="text" class="form-control" id="loginId" name="loginId" placeholder="영문 소문자 + 숫자 (5~20자)"
-                    maxlength="20" value="00" th:value="${memberInsertDto?.loginId}">
+                    maxlength="20" th:field="${memberInsertDto?.loginId}">
+                <span th:text="${valid_loginId}"></span>
                 <span class="id_chk1" id="id_chk1" style="display: none;">필수 항목입니다.</span>
                 <span class="id_chk2" id="id_chk2" style="display: none;">아이디는 5~20자이고, 영문 소문자와 숫자만 사용가능합니다.</span>
                 <span class="id_chk3" id="id_chk3" style="display: none;">이미 존재하는 아이디 입니다.</span>
@@ -51,7 +53,8 @@
             <div class="form-group">
                 <label for="password">비밀번호</label>
                 <input type="password" class="form-control" id="password" name="password"
-                    placeholder="영문 + 숫자 + 특수문자(8~16자)" maxlength="16" value="00" th:value="${memberInsertDto?.password}">
+                    placeholder="영문 + 숫자 + 특수문자(8~16자)" maxlength="16" th:value="${memberInsertDto?.password}">
+                <!-- <span th:text="${valid_password}"></span> -->
                 <span class="pw_chk1" id="pw_chk1" style="display: none;">필수 항목입니다.</span>
                 <span class="pw_chk2" id="pw_chk2" style="display: none;">비밀번호는 영문 대 소문자, 숫자, 특수문자를 모두 사용한 8~16자만
                     가능합니다.</span>
@@ -59,21 +62,23 @@
             <div class="form-group">
                 <label for="more_password">비밀번호 재확인</label>
                 <input type="password" class="form-control" id="more_password" name="more_password" maxlength="16"
-                    value="00" th:value="${memberInsertDto?.more_password}">
+                    th:value="${memberInsertDto?.more_password}">
+                <!-- <span th:text="${valid_more_password}"></span> -->
                 <span class="pw_more_chk1" id="pw_more_chk1" style="display: none;">필수 항목입니다.</span>
                 <span class="pw_more_chk2" id="pw_more_chk2" style="display: none;">비밀번호가 일치하지 않습니다</span>
             </div>
             <div class="form-group">
                 <label for="nickname">닉네임</label>
-                <input type="text" class="form-control" id="nickname" name="nickname" value="00" maxlength="20" th:value="${memberInsertDto?.nickname}">
+                <input type="text" class="form-control" id="nickname" name="nickname" maxlength="20" th:value="${memberInsertDto?.nickname}">
+                <!-- <span th:text="${valid_nickname}"></span> -->
                 <span class="nick_chk1" id="nick_chk1" style="display: none;">필수 항목입니다.</span>
                 <span class="nick_chk2" id="nick_chk2" style="display: none;">한글, 영어 대소문자, 숫자만 사용할 수 있습니다(20자 제한)</span>
                 <span class="nick_chk3" id="nick_chk3" style="display: none;">이미 존재하는 닉네임 입니다.</span>
             </div>
             <div class="form-group">
                 <label for="email">이메일</label>
-                <input type="text" class="form-control" id="email" name="email" value="00" th:value="${memberInsertDto?.email}">
-                <span th:text="${valid_email}"></span>
+                <input type="text" class="form-control" id="email" name="email" th:value="${memberInsertDto?.email}">
+                <!-- <span th:text="${valid_email}"></span> -->
                 <span class="email_chk1" id="email_chk1" style="display: none;">필수 항목입니다.</span>
                 <span class="email_chk2" id="email_chk2" style="display: none;">이메일 형식이 잘못되었습니다</span>
             </div>
@@ -92,13 +97,15 @@
                 <h3>현재 반려동물을 기르고 계신가요?</h3>
                 <input type="radio" name="petYN" value="Y" onclick="check_YN()" />네
                 <input type="radio" name="petYN" value="N" onclick="check_YN()" />아니요
+                <!-- <span th:text="${valid_petYN}"></span> -->
                 <span class="petYN_chk1" id="petYN_chk1" style="display: none;">필수 항목입니다.</span>
             </div>
 
             <div class="add_info" id="add_info" style="display: none;">
                 <div class="form-group">
                     <label for="petName">펫 이름</label>
-                    <input type="text" class="form-control" id="petName" name="petName" value="00" th:value="${memberInsertDto?.petName}">
+                    <input type="text" class="form-control" id="petName" name="petName" th:value="${memberInsertDto?.petName}">
+                    <!-- <span th:text="${valid_petName}"></span> -->
                     <span class="petName_chk1" id="petName_chk1" style="display: none;">필수 항목입니다.</span>
                     <span class="petName_chk2" id="petName_chk2" style="display: none;">한글, 영어만 사용 가능합니다.</span>
                 </div>
@@ -109,6 +116,7 @@
                         <input type="radio" name="petCategory" value="cat" onclick="check_myPet()" /> 고양이
                         <input type="radio" name="petCategory" value="animal" onclick="check_myPet()" /> 일반 동물
                     </div>
+                    <!-- <span th:text="${valid_petCategory}"></span> -->
                     <span class="petCategory_chk1" id="petCategory_chk1" style="display: none;">필수 항목입니다.</span>
                 </div>
             </div>
@@ -120,6 +128,7 @@
                     <input type="checkbox" name="wantPet" id="cat" value="cat" /> 고양이
                     <input type="checkbox" name="wantPet" id="animal" value="animal" />일반 동물
                 </div>
+                <!-- <span th:text="${valid_wantPet}"></span> -->
                 <span class="want_pet_chk1" id="want_pet_chk1" style="display: none;">필수 항목입니다.</span>
             </div>
 
@@ -541,25 +550,27 @@
             // else {
                 // var id = $("#loginId").val();
                 // var formData = new FormData($("#frm")[0]);
-                var form = $("#frm").serialize();
-                $.ajax({
-                    url: '/signup/check',
-                    type: 'post',
-                    // data: 
-                    // {"loginId" : id}
-                    // ,
-                    dataType:'json',
-                    data: form,
-                    success: function (r) {
-                        if (r.fail !=null) {
-                            alert("잘못 입력된 항목이 있습니다. 다시 확인해주세요");
-                        }
-                        else {
-                            $("#frm").attr("action", "/signup/success");
-                            $("#frm").submit();
-                        }
-                    }
-                });
+                $("#frm").attr("action", "/signup/success");
+                $("#frm").submit();
+                // var form = $("#frm").serialize();
+                // $.ajax({
+                //     url: '/signup/check',
+                //     type: 'post',
+                //     // data: 
+                //     // {"loginId" : id}
+                //     // ,
+                //     dataType:'json',
+                //     data: form,
+                //     success: function (r) {
+                //         if (r.fail !=null) {
+                //             alert("잘못 입력된 항목이 있습니다. 다시 확인해주세요");
+                //         }
+                //         else {
+                //             $("#frm").attr("action", "/signup/success");
+                //             $("#frm").submit();
+                //         }
+                //     }
+                // });
             // }
         }
         else {
@@ -606,25 +617,27 @@
             // else {
                 // var id = $("#loginId").val();
                 // var formData = new FormData($("#frm")[0]);
-                var form = $("#frm").serialize();
-                $.ajax({
-                    url: '/signup/check',
-                    type: 'post',
-                    // data: 
-                    // {"loginId" : id}
-                    // ,
-                    dataType:'json',
-                    data: form,
-                    success: function (r) {
-                        if (r.fail !=null) {
-                            alert("잘못 입력된 항목이 있습니다. 다시 확인해주세요");
-                        }
-                        else {
-                            $("#frm").attr("action", "/signup/success");
-                            $("#frm").submit();
-                        }
-                    }
-                });
+                $("#frm").attr("action", "/signup/success");
+                $("#frm").submit();
+                // var form = $("#frm").serialize();
+                // $.ajax({
+                //     url: '/signup/check',
+                //     type: 'post',
+                //     // data: 
+                //     // {"loginId" : id}
+                //     // ,
+                //     dataType:'json',
+                //     data: form,
+                //     success: function (r) {
+                //         if (r.fail !=null) {
+                //             alert("잘못 입력된 항목이 있습니다. 다시 확인해주세요");
+                //         }
+                //         else {
+                //             $("#frm").attr("action", "/signup/success");
+                //             $("#frm").submit();
+                //         }
+                //     }
+                // });
             // }
         }
     }
