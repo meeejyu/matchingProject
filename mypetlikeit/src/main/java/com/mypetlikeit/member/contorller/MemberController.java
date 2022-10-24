@@ -50,11 +50,14 @@ public class MemberController {
     // public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, Model model, BindingResult bindingResult) {
 
         Map<String, Object> resultMap = new HashMap<>();
+
+        // Map<String, Object> map = new HashMap<>();
         // 회원가입 유효성 검증 추가
 
         // if(errors.hasErrors()) {
 
-            model.addAttribute("memberInsertDto", memberInsertDto);
+            System.out.println("값이 잘 넘어오나 테스트 : "+memberInsertDto.toString());
+            // model.addAttribute("memberInsertDto", memberInsertDto);
 
 
             // if (bindingResult.hasErrors()) {
