@@ -45,36 +45,28 @@ public class MemberController {
 
     @GetMapping("/signup")
     public String signUp() {
+        // model.addAttribute("memberInsertDto", null);
         return "signUp";
     }
 
     @PostMapping("/signup/check")
-    public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, BindingResult bindingResult, Model model) {
+    public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, BindingResult bindingResult) {
     // public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, Model model, BindingResult bindingResult) {
 
         Map<String, Object> resultMap = new HashMap<>();
-        Map<String, Object> errorMap = new HashMap<>();
 
-        model.addAttribute("memberInsertDto", memberInsertDto);
-
+        System.out.println("멤버 가져오기 : "+ memberInsertDto.toString());
+        
         if(bindingResult.hasErrors()) {
-            // for(FieldError error : bindingResult.getFieldError()) {
-
-            // }
-            // System.out.println("바인딩 에러 요놈 잡았다1 : "+bindingResult.getAllErrors().toString());
             List<ObjectError> errors = bindingResult.getAllErrors();
             
-            // System.out.println("필드 나와라 : "+ bindingResult.getFieldError());
             for(ObjectError error : errors) {
                 
                 FieldError err = (FieldError) error;
-                // System.out.println("일단 코드 : "+err.getField());
-                // System.out.println("일단 메시지 : "+error.getDefaultMessage());
-
-                errorMap.put("valid_" + err.getField(), error.getDefaultMessage());
-                model.addAttribute("valid_" + err.getField(), error.getDefaultMessage());
+                resultMap.put("fail", "실패");
+                resultMap.put("valid_" + err.getField(), error.getDefaultMessage());
             }
-            return errorMap;
+            return resultMap;
         }
         else {
             // member PetYN 값을 통해 이름과 펫종류 예외 처리
@@ -119,7 +111,7 @@ public class MemberController {
                 // System.out.println("일단 메시지 : "+error.getDefaultMessage());
 
                 // errorMap.put("valid_" + err.getField(), error.getDefaultMessage());
-                // model.addAttribute("valid_" + err.getField(), error.getDefaultMessage());
+                model.addAttribute("valid_" + err.getField(), error.getDefaultMessage());
             }
             return "signUp";
         }
