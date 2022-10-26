@@ -1,9 +1,12 @@
 package com.mypetlikeit.domain;
 
+import java.security.NoSuchAlgorithmException;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
+import com.mypetlikeit.comm.encryption.Encryption;
 import com.mypetlikeit.comm.validation.ValidationGroups;
 import com.mypetlikeit.comm.validation.ValidationGroups.NotBlankGroup;
 import com.mypetlikeit.comm.validation.ValidationGroups.PatternCheckGroup;
@@ -71,6 +74,18 @@ public class MemberInsertDto {
         this.petName = petName;
         this.petCategory = petCategory;
         this.wantPet = wantPet;
+    }
+
+    public void encryptionPass(MemberInsertDto memberInsertDto) {
+
+        try {
+            Encryption enc = new Encryption();
+            String encPass = enc.encrypt(memberInsertDto.getPassword());
+            this.password = encPass;
+            System.out.println("암호화 : " + this.password );
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 
     // public MemberInsertDto(/* long id, */

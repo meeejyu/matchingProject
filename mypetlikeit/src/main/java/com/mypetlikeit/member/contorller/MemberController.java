@@ -1,5 +1,6 @@
 package com.mypetlikeit.member.contorller;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mypetlikeit.comm.encryption.Encryption;
 import com.mypetlikeit.comm.exception.ErrorResponse;
 import com.mypetlikeit.comm.validation.ValidationSequence;
 import com.mypetlikeit.domain.Member;
@@ -33,7 +35,7 @@ public class MemberController {
     
     private final MemberService memberService;
 
-    private ErrorResponse errorResponse;
+    // private Encryption enc;
 
     @GetMapping("/member")
     public String member() {
@@ -47,6 +49,7 @@ public class MemberController {
     @GetMapping("/signup")
     public String signUp() {
         // model.addAttribute("memberInsertDto", null);
+
         return "signUp";
     }
 
@@ -57,93 +60,52 @@ public class MemberController {
         Map<String, Object> resultMap = new HashMap<>();
 
         System.out.println("멤버 가져오기 : "+ memberInsertDto.toString());
-        
-        // petYN 값에 따른 처리
-        if(memberInsertDto.getPetYN()!=null) {
-            if(memberInsertDto.getPetYN().equals("Y")) {
-                if(memberInsertDto.getPetName()==null || memberInsertDto.getPetName().equals("")) {
-                    resultMap.put("valid_petName", "petName_chk1");
-                };
-                // [a-z0-9가-힣]{2,16}
-                // /^[가-힣a-zA-Z]{2,20}$/
-                // 글자수 2~16자 제한 정규식 필요
-                if(Pattern.matches("/^[a-z0-9가-힣]{2,16}$/", memberInsertDto.getPetName())) {
-                    resultMap.put("valid_petName", "petName_chk2");
-                };
-                if(memberInsertDto.getPetCategory()==null) {
-                    resultMap.put("valid_petCategory", "petCategory_chk1");
-                };
-                resultMap.put("fail", "실패");
-            }
-        }
-        if(bindingResult.hasErrors()) {
-            List<ObjectError> errors = bindingResult.getAllErrors();
+
+        // // petYN 값에 따른 처리
+        // if(memberInsertDto.getPetYN()!=null) {
+        //     if(memberInsertDto.getPetYN().equals("Y")) {
+        //         if(memberInsertDto.getPetName()==null || memberInsertDto.getPetName().equals("")) {
+        //             resultMap.put("valid_petName", "petName_chk1");
+        //         };
+        //         // [a-z0-9가-힣]{2,16}
+        //         // /^[가-힣a-zA-Z]{2,20}$/
+        //         // 글자수 2~16자 제한 정규식 필요
+        //         if(Pattern.matches("/^[a-z0-9가-힣]{2,16}$/", memberInsertDto.getPetName())) {
+        //             resultMap.put("valid_petName", "petName_chk2");
+        //         };
+        //         if(memberInsertDto.getPetCategory()==null) {
+        //             resultMap.put("valid_petCategory", "petCategory_chk1");
+        //         };
+        //         resultMap.put("fail", "실패");
+        //     }
+        // }
+        // if(bindingResult.hasErrors()) {
+        //     List<ObjectError> errors = bindingResult.getAllErrors();
             
-            for(ObjectError error : errors) {
+        //     for(ObjectError error : errors) {
                 
-                FieldError err = (FieldError) error;
-                resultMap.put("valid_" + err.getField(), error.getDefaultMessage());
-                resultMap.put("fail", "실패");
-            }
-        }
-        if(resultMap.containsKey("valid_password")==false && resultMap.containsKey("valid_more_password")==false) {
-            if(memberInsertDto.getPassword().equals(memberInsertDto.getMore_password())==false) {
-                resultMap.put("valid_more_password", "pw_more_chk2");
-            }
-        }
-        if(resultMap.containsKey("fail")==false) {
-            resultMap.put("success", "회원가입 성공");
-            System.out.println("성공");
-        }
+        //         FieldError err = (FieldError) error;
+        //         resultMap.put("valid_" + err.getField(), error.getDefaultMessage());
+        //         resultMap.put("fail", "실패");
+        //     }
+        // }
+        // if(resultMap.containsKey("valid_password")==false && resultMap.containsKey("valid_more_password")==false) {
+        //     if(memberInsertDto.getPassword().equals(memberInsertDto.getMore_password())==false) {
+        //         resultMap.put("valid_more_password", "pw_more_chk2");
+        //     }
+        // }
+        // if(resultMap.containsKey("fail")==false) {
+        //     resultMap.put("success", "회원가입 성공");
+        //     System.out.println("성공");
+        // }
         return resultMap;
     }
 
     @PostMapping("/signup/success")
     public String signUp_success(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, BindingResult bindingResult, Model model) {
 
-        // Map<String, Object> resultMap = new HashMap<>();
-        // Map<String, Object> errorMap = new HashMap<>();
-
-        // model.addAttribute("memberInsertDto", memberInsertDto);
-
-        // if(bindingResult.hasErrors()) {
-        //     // for(FieldError error : bindingResult.getFieldError()) {
-
-        //     // }
-        //     // System.out.println("바인딩 에러 요놈 잡았다1 : "+bindingResult.getAllErrors().toString());
-        //     List<ObjectError> errors = bindingResult.getAllErrors();
-            
-        //     // System.out.println("필드 나와라 : "+ bindingResult.getFieldError());
-        //     for(ObjectError error : errors) {
-                
-        //         FieldError err = (FieldError) error;
-        //         // System.out.println("일단 코드 : "+err.getField());
-        //         // System.out.println("일단 메시지 : "+error.getDefaultMessage());
-
-        //         // errorMap.put("valid_" + err.getField(), error.getDefaultMessage());
-        //         model.addAttribute("valid_" + err.getField(), error.getDefaultMessage());
-        //     }
-        //     return "signUp";
-        // }
-        // else {
-        //     // member PetYN 값을 통해 이름과 펫종류 예외 처리
-        //     if(memberInsertDto.getPetYN().equals("Y")) {
-        //         if(memberInsertDto.getPetName()==null) {
-        //             resultMap.put("fail", "펫 이름을 입력하지 않았습니다.");
-        //             return "signUp";
-        //         };
-        //         if(memberInsertDto.getPetCategory()==null) {
-        //             resultMap.put("fail", "펫 종류를 입력하지 않았습니다.");
-        //             return "signUp";
-        //         };
-        //     }
-            
-        //     System.out.println("값이 잘오나 확인"+memberInsertDto.toString());
-        //     resultMap.put("success", "회원가입 성공");
-        //     System.out.println("성공");
-        //     return "signUp";
-        // }
-
+        memberInsertDto.encryptionPass(memberInsertDto);
+        
         // memberService.memberSave(member);
         return "signUpSuccess";
     }
