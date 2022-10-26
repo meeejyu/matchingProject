@@ -27,8 +27,9 @@ public class MemberInsertDto {
     @NotEmpty(message = "pw_more_chk1", groups = ValidationGroups.NotBlankGroup.class)
     private String more_password;
 
+    // 2~16자 제한 정규식 추가
     @NotEmpty(message = "nick_chk1", groups = ValidationGroups.NotBlankGroup.class)
-    @Pattern(regexp = "/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|0-9|]+$/", message = "nick_chk2", groups = ValidationGroups.PatternCheckGroup.class)
+    @Pattern(regexp = "/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|0-9|]$/", message = "nick_chk2", groups = ValidationGroups.PatternCheckGroup.class)
     private String nickname;
 
     @NotEmpty(message = "email_chk1", groups = ValidationGroups.NotBlankGroup.class)

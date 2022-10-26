@@ -63,9 +63,9 @@
             </div>
             <div class="form-group">
                 <label for="nickname">닉네임</label>
-                <input type="text" class="form-control" id="nickname" name="nickname" maxlength="20" th:value="${memberInsertDto?.nickname}">
+                <input type="text" class="form-control" id="nickname" name="nickname" maxlength="16" th:value="${memberInsertDto?.nickname}">
                 <span class="nick_chk1" id="nick_chk1" style="display: none;">필수 항목입니다.</span>
-                <span class="nick_chk2" id="nick_chk2" style="display: none;">한글, 영어 대소문자, 숫자만 사용할 수 있습니다(20자 제한)</span>
+                <span class="nick_chk2" id="nick_chk2" style="display: none;">한글, 영어 대소문자, 숫자만 사용할 수 있습니다(2~16자 제한)</span>
                 <span class="nick_chk3" id="nick_chk3" style="display: none;">이미 존재하는 닉네임 입니다.</span>
             </div>
             <div class="form-group">
@@ -84,9 +84,9 @@
             <div class="add_info" id="add_info" style="display: none;">
                 <div class="form-group">
                     <label for="petName">펫 이름</label>
-                    <input type="text" class="form-control" id="petName" name="petName" th:value="${memberInsertDto?.petName}">
+                    <input type="text" class="form-control" id="petName" name="petName" maxlength="20" th:value="${memberInsertDto?.petName}">
                     <span class="petName_chk1" id="petName_chk1" style="display: none;">필수 항목입니다.</span>
-                    <span class="petName_chk2" id="petName_chk2" style="display: none;">한글, 영어만 사용 가능합니다.</span>
+                    <span class="petName_chk2" id="petName_chk2" style="display: none;">한글, 영어만 사용 가능합니다(1~20자 제한)</span>
                 </div>
                 <div class="form-group">
                     <label for="petCategory">펫 종류</label>
@@ -517,42 +517,58 @@
                     dataType:'json',
                     data: form,
                     success: function (r) {
-                        alert(r);
-                        alert("ㅎㅇ");
-                        // if(r.fail!=null) {
-                        //     alert("ㅎㅇ");
-                        //     if(r.valid_loginId!=null) {
-                        //         alert("gd");
-                        //         console.log("zz"+r.valid_loginId);
-                        //     }
-                        //     if(r.valid_password!=null) {
-                        //         console.log("zz"+r.valid_password);
-                        //     }
-                        //     if(r.valid_more_password!=null) {
-                        //         console.log("zz"+r.valid_more_password);
-                        //     }
-                        //     if(r.valid_nickname!=null) {
-                        //         console.log("zz"+r.valid_nickname);
-                        //     }
-                        //     if(r.valid_email!=null) {
-                        //         console.log("zz"+r.valid_email);
-                        //     }
-                        //     if(r.valid_petYN!=null) {
-                        //         console.log("zz"+r.valid_petYN);
-                        //     }
-                        //     if(r.valid_wantPet!=null) {
-                        //         console.log("zz"+r.valid_wantPet);
-                        //     }
-                        // }
-
-
-                        // if (r.fail !=null) {
-                        //     alert("잘못 입력된 항목이 있습니다. 다시 확인해주세요");
-                        // }
-                        // else {
-                        //     $("#frm").attr("action", "/signup/success");
-                        //     $("#frm").submit();
-                        // }
+                        if(r.fail!=null) {
+                            if(r.valid_loginId!=null) {
+                                $("#"+r.valid_loginId).css({
+                                    "display": "block"
+                                });
+                            }
+                            if(r.valid_password!=null) {
+                                $("#"+r.valid_password).css({
+                                    "display": "block"
+                                });
+                            }
+                            if(r.valid_more_password!=null) {
+                                $("#"+r.valid_more_password).css({
+                                    "display": "block"
+                                });
+                            }
+                            if(r.valid_nickname!=null) {
+                                $("#"+r.valid_nickname).css({
+                                    "display": "block"
+                                });
+                            }
+                            if(r.valid_email!=null) {
+                                $("#"+r.valid_email).css({
+                                    "display": "block"
+                                });
+                            }
+                            if(r.valid_petYN!=null) {
+                                $("#"+r.valid_petYN).css({
+                                    "display": "block"
+                                });
+                            }
+                            if(r.valid_petName!=null) {
+                                $("#"+r.valid_petName).css({
+                                    "display": "block"
+                                });
+                            }
+                            if(r.valid_petCategory!=null) {
+                                $("#"+r.valid_petCategory).css({
+                                    "display": "block"
+                                });
+                            }
+                            if(r.valid_wantPet!=null) {
+                                $("#"+r.valid_wantPet).css({
+                                    "display": "block"
+                                });
+                            }
+                        }
+                        else {
+                            alert("성공");
+                            // $("#frm").attr("action", "/signup/success");
+                            // $("#frm").submit();
+                        }
                     }
                 });
             // }
@@ -637,6 +653,16 @@
                                     "display": "block"
                                 });
                             }
+                            if(r.valid_petName!=null) {
+                                $("#"+r.valid_petName).css({
+                                    "display": "block"
+                                });
+                            }
+                            if(r.valid_petCategory!=null) {
+                                $("#"+r.valid_petCategory).css({
+                                    "display": "block"
+                                });
+                            }
                             if(r.valid_wantPet!=null) {
                                 $("#"+r.valid_wantPet).css({
                                     "display": "block"
@@ -644,8 +670,9 @@
                             }
                         }
                         else {
-                            $("#frm").attr("action", "/signup/success");
-                            $("#frm").submit();
+                            alert("성공");
+                            // $("#frm").attr("action", "/signup/success");
+                            // $("#frm").submit();
                         }
                     }
                 });
