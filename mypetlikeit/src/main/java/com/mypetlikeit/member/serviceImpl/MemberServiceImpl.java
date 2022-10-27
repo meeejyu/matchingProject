@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.mypetlikeit.domain.Member;
+import com.mypetlikeit.domain.MemberInsertDto;
 import com.mypetlikeit.member.mapper.MemberMapper;
 import com.mypetlikeit.member.service.MemberService;
 
@@ -22,10 +23,10 @@ public class MemberServiceImpl implements MemberService{
         return memberMapper.getMemberList();
     }
 
-    @Override
-    public void memberSave(Member member) {
-        memberMapper.memberSave(member);
-    }
+    // @Override
+    // public void memberSave(Member member) {
+    //     memberMapper.memberSave(member);
+    // }
 
     @Override
     public List<Member> memberLoginId(String id) {
@@ -37,6 +38,11 @@ public class MemberServiceImpl implements MemberService{
     public List<Member> memberNickname(String nickname) {
         List<Member> member = memberMapper.memberNickname(nickname);        
         return member;
+    }
+
+    @Override
+    public void memberSave(MemberInsertDto memberInsertDto) {
+        memberMapper.memberSave(memberInsertDto);        
     }
 
 
