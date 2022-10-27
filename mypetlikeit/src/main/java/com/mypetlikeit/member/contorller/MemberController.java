@@ -101,12 +101,13 @@ public class MemberController {
         return resultMap;
     }
 
+    // 비밀번호 암호화에 따른 비밀번호 길이 변경 필요
     @PostMapping("/signup/success")
     public String signUp_success(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, BindingResult bindingResult, Model model) {
 
         memberInsertDto.encryptionPass(memberInsertDto);
-        
-        // memberService.memberSave(member);
+
+        memberService.memberSave(memberInsertDto);
         return "signUpSuccess";
     }
 
