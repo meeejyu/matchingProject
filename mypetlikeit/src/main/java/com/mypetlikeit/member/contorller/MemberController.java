@@ -48,56 +48,60 @@ public class MemberController {
 
     @GetMapping("/signup")
     public String signUp() {
-        // model.addAttribute("memberInsertDto", null);
 
         return "signUp";
     }
 
     @PostMapping("/signup/check")
-    public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, BindingResult bindingResult) {
-    // public @ResponseBody Map<String, Object> signUp_check(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, Model model, BindingResult bindingResult) {
+    public @ResponseBody Map<String, Object> signUp_check(@Valid MemberInsertDto memberInsertDto, BindingResult bindingResult, Errors errorss) {
 
         Map<String, Object> resultMap = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
 
         System.out.println("멤버 가져오기 : "+ memberInsertDto.toString());
 
-        // // petYN 값에 따른 처리
-        // if(memberInsertDto.getPetYN()!=null) {
-        //     if(memberInsertDto.getPetYN().equals("Y")) {
-        //         if(memberInsertDto.getPetName()==null || memberInsertDto.getPetName().equals("")) {
-        //             resultMap.put("valid_petName", "petName_chk1");
-        //         };
-        //         // [a-z0-9가-힣]{2,16}
-        //         // /^[가-힣a-zA-Z]{2,20}$/
-        //         // 글자수 2~16자 제한 정규식 필요
-        //         if(Pattern.matches("/^[a-z0-9가-힣]{2,16}$/", memberInsertDto.getPetName())) {
-        //             resultMap.put("valid_petName", "petName_chk2");
-        //         };
-        //         if(memberInsertDto.getPetCategory()==null) {
-        //             resultMap.put("valid_petCategory", "petCategory_chk1");
-        //         };
-        //         resultMap.put("fail", "실패");
-        //     }
-        // }
-        // if(bindingResult.hasErrors()) {
-        //     List<ObjectError> errors = bindingResult.getAllErrors();
-            
-        //     for(ObjectError error : errors) {
-                
-        //         FieldError err = (FieldError) error;
-        //         resultMap.put("valid_" + err.getField(), error.getDefaultMessage());
-        //         resultMap.put("fail", "실패");
-        //     }
-        // }
-        // if(resultMap.containsKey("valid_password")==false && resultMap.containsKey("valid_more_password")==false) {
-        //     if(memberInsertDto.getPassword().equals(memberInsertDto.getMore_password())==false) {
-        //         resultMap.put("valid_more_password", "pw_more_chk2");
-        //     }
-        // }
-        // if(resultMap.containsKey("fail")==false) {
-        //     resultMap.put("success", "회원가입 성공");
-        //     System.out.println("성공");
-        // }
+        if(errorss.hasFieldErrors()) {
+            for(FieldError fieldError : errorss.getFieldErrors()) {
+                if(resultMap.containsKey("valid_"+fieldError.getField())) {
+                    if(!resultMap.get("valid_"+fieldError.getField()).toString().contains("1")) {
+                        resultMap.put("valid_"+fieldError.getField(), fieldError.getDefaultMessage());
+                    }
+                }
+                else {
+                    resultMap.put("valid_"+fieldError.getField(), fieldError.getDefaultMessage());
+                }
+                result.put("valid_"+fieldError.getField(), fieldError.getDefaultMessage());
+            }
+            resultMap.put("fail", "실패");
+        }
+
+        // petYN 값에 따른 처리
+        if(memberInsertDto.getPetYN()!=null) {
+            if(memberInsertDto.getPetYN().equals("Y")) {
+                if(memberInsertDto.getPetName()==null || memberInsertDto.getPetName().equals("")) {
+                    resultMap.put("valid_petName", "petName_chk1");
+                }
+                else {
+                    System.out.println("패턴 확인 : " + Pattern.matches("^[a-z가-힣]{1,20}$", memberInsertDto.getPetName()));
+                    if(Pattern.matches("^[a-z가-힣]{1,20}$", memberInsertDto.getPetName())==false) {
+                        resultMap.put("valid_petName", "petName_chk2");
+                    };
+                }
+                if(memberInsertDto.getPetCategory()==null) {
+                    resultMap.put("valid_petCategory", "petCategory_chk1");
+                };
+                resultMap.put("fail", "실패");
+            }
+        }
+        if(resultMap.containsKey("valid_password")==false && resultMap.containsKey("valid_more_password")==false) {
+            if(memberInsertDto.getPassword().equals(memberInsertDto.getMore_password())==false) {
+                resultMap.put("valid_more_password", "pw_more_chk2");
+            }
+        }
+        if(resultMap.containsKey("fail")==false) {
+            resultMap.put("success", "회원가입 성공");
+            System.out.println("성공");
+        }
         return resultMap;
     }
 
@@ -139,6 +143,5 @@ public class MemberController {
             System.out.println("실패");
             return "fail";
         }
-        // return "signUpSuccess";
     }
 }

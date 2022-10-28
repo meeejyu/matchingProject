@@ -37,7 +37,6 @@
 </style>
 
 <body>
-<!-- 계획 : 멤버 디티오에 에러 메시지를 id 값으로 바꾸고 전달해서 에이작스로 컨트롤하기 -->
     <form method="post" id="frm">
         <div class="container">
             <h1>회원가입</h1>
@@ -132,9 +131,9 @@
     jQuery(document).ready(function () {
 
         // 아이디 검증
-        $("#loginId").on("focusout",
-            function () {
-                var reg = /^[a-zA-Z0-9]{5,20}$/ //
+        $("#loginId").on("focusout", 
+        function () {
+                var reg = /^([a-z]+[0-9]*){5,20}$/
                 var id = $("#loginId").val();
                 if (id == "") {
                     $("#id_chk1").css({
@@ -159,13 +158,11 @@
                     $.ajax({
                         url: '/member/idCheck',
                         type: 'post',
-                        // dataType:'json',
                         data: {
                             "LOGIN_ID": id
                         },
                         success: function (r) {
                             if (r == "success") {
-                                // alert("아이디 중복확인 완료");
                                 $("#id_chk1").css({
                                     "display": "none"
                                 });
@@ -178,7 +175,6 @@
                                 idCheck = true;
                             }
                             else {
-                                // alert("중복확인 실패");
                                 $("#id_chk3").css({
                                     "display": "block"
                                 });
@@ -186,7 +182,8 @@
                         }
                     });
                 }
-            });
+            }
+        );
 
         // 비밀번호
         $("#password").on("focusout",
@@ -266,7 +263,7 @@
         $("#nickname").on("focusout",
             function () {
                 var nickname = $("#nickname").val();
-                var nickReg = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|0-9|]+$/;
+                var nickReg = /^[ㄱ-ㅎa-zA-Zㅏ-ㅣ0-9가-힣]{5,20}$/;
                 if (nickname == "") {
                     $("#nick_chk1").css({
                         "display": "block"
@@ -295,7 +292,6 @@
                         },
                         success: function (r) {
                             if (r == "success") {
-                                alert("닉네임 중복확인 완료");
                                 $("#nick_chk1").css({
                                     "display": "none"
                                 });
@@ -308,7 +304,6 @@
                                 nickCheck = true;
                             }
                             else {
-                                alert("중복확인 실패");
                                 $("#nick_chk3").css({
                                     "display": "block"
                                 });
@@ -356,7 +351,7 @@
         $("#petName").on("focusout",
             function () {
                 var petName = $("#petName").val();
-                var nameReg = /^[가-힣|a-z|A-Z|]+$/;
+                var nameReg = /^[a-z가-힣]{1,20}$/;
                 if (petName == "") {
                     $("#petName_chk1").css({
                         "display": "block"
@@ -453,60 +448,59 @@
 
     function lastCheck() {
         if (petYNValue == "Y") {
-            // if (idCheck == false || pwCheck == false || pwMoreCheck == false || nickCheck == false
-            //     || emailCheck == false || /*addrCheck == false ||*/ petYNCheck == false || petNameCheck == false
-            //     || petCategoryCheck == false || wantPetCheck == false) {
-            //     if (idCheck == false) {
-            //         $("#id_chk1").css({
-            //             "display": "block"
-            //         });
-            //     }
-            //     if (pwCheck == false) {
-            //         $("#pw_chk1").css({
-            //             "display": "block"
-            //         });
-            //     }
-            //     if (pwMoreCheck == false) {
-            //         $("#pw_more_chk1").css({
-            //             "display": "block"
-            //         });
-            //     }
-            //     if (nickCheck == false) {
-            //         $("#nick_chk1").css({
-            //             "display": "block"
-            //         });
-            //     }
-            //     if (emailCheck == false) {
-            //         $("#petName_chk1").css({
-            //             "display": "block"
-            //         });
-            //     }
-            //     if (petYNCheck == false) {
-            //         $("#petYN_chk1").css({
-            //             "display": "block"
-            //         });
-            //     }
-            //     if (petNameCheck == false) {
-            //         $("#petName_chk1").css({
-            //             "display": "block"
-            //         });
-            //     }
-            //     if (petCategoryCheck == false) {
-            //         $("#petCategory_chk1").css({
-            //             "display": "block"
-            //         });
-            //     }
-            //     if (wantPetCheck == false) {
-            //         $("#want_pet_chk1").css({
-            //             "display": "block"
-            //         });
-            //     }
-            //     alert("잘못입력된 항목이 있습니다. 다시 확인해주세요");
-            //     return;
-            // }
-            // else {
-                // $("#frm").attr("action", "/signup/success");
-                // $("#frm").submit();
+            if (idCheck == false || pwCheck == false || pwMoreCheck == false || nickCheck == false
+                || emailCheck == false || /*addrCheck == false ||*/ petYNCheck == false || petNameCheck == false
+                || petCategoryCheck == false || wantPetCheck == false) {
+                if (idCheck == false) {
+                    // id_chk();
+                    $("#id_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (pwCheck == false) {
+                    $("#pw_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (pwMoreCheck == false) {
+                    $("#pw_more_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (nickCheck == false) {
+                    $("#nick_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (emailCheck == false) {
+                    $("#email_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (petYNCheck == false) {
+                    $("#petYN_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (petNameCheck == false) {
+                    $("#petName_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (petCategoryCheck == false) {
+                    $("#petCategory_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (wantPetCheck == false) {
+                    $("#want_pet_chk1").css({
+                        "display": "block"
+                    });
+                }
+                alert("잘못입력된 항목이 있습니다. 다시 확인해주세요");
+                return;
+            }
+            else {
                 var form = $("#frm").serialize();
                 $.ajax({
                     url: '/signup/check',
@@ -565,56 +559,56 @@
                             }
                         }
                         else {
-                            alert("성공");
                             $("#frm").attr("action", "/signup/success");
                             $("#frm").submit();
                         }
                     }
                 });
-            // }
+            }
         }
         else {
-            // if (idCheck == false || pwCheck == false || pwMoreCheck == false || nickCheck == false
-            //     || emailCheck == false || /*addrCheck == false ||*/ wantPetCheck == false) {
-            //     if (idCheck == false) {
-            //         $("#id_chk1").css({
-            //             "display": "block"
-            //         });
-            //     }
-            //     if (pwCheck == false) {
-            //         $("#pw_chk1").css({
-            //             "display": "block"
-            //         });
-            //     }
-            //     if (pwMoreCheck == false) {
-            //         $("#pw_more_chk1").css({
-            //             "display": "block"
-            //         });
-            //     }
-            //     if (nickCheck == false) {
-            //         $("#nick_chk1").css({
-            //             "display": "block"
-            //         });
-            //     }
-            //     if (emailCheck == false) {
-            //         $("#petName_chk1").css({
-            //             "display": "block"
-            //         });
-            //     }
-            //     if (petYNCheck == false) {
-            //         $("#petYN_chk1").css({
-            //             "display": "block"
-            //         });
-            //     }
-            //     if (wantPetCheck == false) {
-            //         $("#want_pet_chk1").css({
-            //             "display": "block"
-            //         });
-            //     }
-            //     alert("잘못입력된 항목이 있습니다. 다시 확인해주세요");
-            //     return;
-            // }
-            // else {
+            if (idCheck == false || pwCheck == false || pwMoreCheck == false || nickCheck == false
+                || emailCheck == false || /*addrCheck == false ||*/ wantPetCheck == false) {
+                if (idCheck == false) {
+                    id_chk();
+                    // $("#id_chk1").css({
+                    //     "display": "block"
+                    // });
+                }
+                if (pwCheck == false) {
+                    $("#pw_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (pwMoreCheck == false) {
+                    $("#pw_more_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (nickCheck == false) {
+                    $("#nick_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (emailCheck == false) {
+                    $("#email_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (petYNCheck == false) {
+                    $("#petYN_chk1").css({
+                        "display": "block"
+                    });
+                }
+                if (wantPetCheck == false) {
+                    $("#want_pet_chk1").css({
+                        "display": "block"
+                    });
+                }
+                alert("잘못입력된 항목이 있습니다. 다시 확인해주세요");
+                return;
+            }
+            else {
                 var form = $("#frm").serialize();
                 $.ajax({
                     url: '/signup/check',
@@ -670,13 +664,12 @@
                             }
                         }
                         else {
-                            alert("성공");
                             $("#frm").attr("action", "/signup/success");
                             $("#frm").submit();
                         }
                     }
                 });
-            // }
+            }
         }
     }
 
