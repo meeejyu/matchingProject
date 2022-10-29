@@ -128,258 +128,325 @@
     var petCategoryCheck = false;
     var wantPetCheck = false;
 
+    function id_chk() {
+        var reg = /^([a-z]+[0-9]*){5,20}$/
+        var id = $("#loginId").val();
+        if (id == "") {
+            $("#id_chk1").css({
+                "display": "block"
+            });
+            $("#id_chk2").css({
+                "display": "none"
+            });
+            idCheck = false;
+        }
+        else if (reg.test(id) == false || id.includes(' ')) {
+            $("#id_chk2").css({
+                "display": "block"
+            });
+            $("#id_chk1").css({
+                "display": "none"
+            });
+            idCheck = false;
+        }
+        else {
+            // 아이디 중복인지 확인하는 로직
+            $.ajax({
+                url: '/member/idCheck',
+                type: 'post',
+                data: {
+                    "LOGIN_ID": id
+                },
+                success: function (r) {
+                    if (r == "success") {
+                        $("#id_chk1").css({
+                            "display": "none"
+                        });
+                        $("#id_chk2").css({
+                            "display": "none"
+                        });
+                        $("#id_chk3").css({
+                            "display": "none"
+                        });
+                        idCheck = true;
+                    }
+                    else {
+                        $("#id_chk3").css({
+                            "display": "block"
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+    function pw_chk() {
+        // 2.비밀번호 확인 검사
+        // 숫자/문자/특수문자/ 포함 형태의 8~16자리 이내의 암호 정규식 
+        // 전체길이검사 /^.{8,16}$/
+        // 숫자하나 반드시 포함 /\d/ 
+        // 영문자 반드시 포함 /[a-zA-Z]/
+        // 특수문자 반드시 포함  /[\*!&]/			
+        var regPw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
+        var pw = $("#password").val();
+        if (pw == "") {
+            $("#pw_chk1").css({
+                "display": "block"
+            });
+            $("#pw_chk2").css({
+                "display": "none"
+            });
+            pwCheck = false;
+        }
+        else if (regPw.test(pw) == false || pw.includes(' ')) {
+            $("#pw_chk2").css({
+                "display": "block"
+            });
+            $("#pw_chk1").css({
+                "display": "none"
+            });
+            pwCheck = false;
+        }
+        else {
+            // 줄일수 있는 방법 알아보기
+            $("#pw_chk1").css({
+                "display": "none"
+            });
+            $("#pw_chk2").css({
+                "display": "none"
+            });
+            pwCheck = true;
+        }
+    }
+
+    function pw_more_chk() {
+        var morePw = $("#more_password").val();
+        if (morePw == "") {
+            $("#pw_more_chk1").css({
+                "display": "block"
+            });
+            $("#pw_more_chk2").css({
+                "display": "none"
+            });
+            pwMoreCheck = false;
+        }
+        else if (morePw != $("#password").val()) {
+            $("#pw_more_chk2").css({
+                "display": "block"
+            });
+            $("#pw_more_chk1").css({
+                "display": "none"
+            });
+            pwMoreCheck = false;
+        }
+        else {
+            $("#pw_more_chk1").css({
+                "display": "none"
+            });
+            $("#pw_more_chk2").css({
+                "display": "none"
+            });
+            pwMoreCheck = true;
+        }
+    }
+
+    function nick_chk() {
+        var nickname = $("#nickname").val();
+        var nickReg = /^[ㄱ-ㅎa-zA-Zㅏ-ㅣ0-9가-힣]{5,20}$/;
+        if (nickname == "") {
+            $("#nick_chk1").css({
+                "display": "block"
+            });
+            $("#nick_chk2").css({
+                "display": "none"
+            });
+            nickCheck = false;
+        }
+        else if (nickReg.test(nickname) == false || nickname.includes(' ')) {
+            $("#nick_chk2").css({
+                "display": "block"
+            });
+            $("#nick_chk1").css({
+                "display": "none"
+            });
+            nickCheck = false;
+        }
+        else {
+            // 닉네임 중복인지 확인하는 로직
+            $.ajax({
+                url: '/member/nickCheck',
+                type: 'post',
+                data: {
+                    "nickname": nickname
+                },
+                success: function (r) {
+                    if (r == "success") {
+                        $("#nick_chk1").css({
+                            "display": "none"
+                        });
+                        $("#nick_chk2").css({
+                            "display": "none"
+                        });
+                        $("#nick_chk3").css({
+                            "display": "none"
+                        });
+                        nickCheck = true;
+                    }
+                    else {
+                        $("#nick_chk3").css({
+                            "display": "block"
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+    function email_chk() {
+        var email = $("#email").val();
+        var emailReg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+        if (email == "") {
+            $("#email_chk1").css({
+                "display": "block"
+            });
+            $("#email_chk2").css({
+                "display": "none"
+            });
+            emailCheck = false;
+        }
+        else if (emailReg.test(email) == false || email.includes(' ')) {
+            $("#email_chk2").css({
+                "display": "block"
+            });
+            $("#email_chk1").css({
+                "display": "none"
+            });
+            emailCheck = false;
+        }
+        else {
+            $("#email_chk1").css({
+                "display": "none"
+            });
+            $("#email_chk2").css({
+                "display": "none"
+            });
+            emailCheck = true;
+        }
+    }
+
+    function petName_chk() {
+        var petName = $("#petName").val();
+        var nameReg = /^[a-z가-힣]{1,20}$/;
+        if (petName == "") {
+            $("#petName_chk1").css({
+                "display": "block"
+            });
+            $("#petName_chk2").css({
+                "display": "none"
+            });
+            petNameCheck = false;
+        }
+        else if (nameReg.test(petName) == false) {
+            $("#petName_chk2").css({
+                "display": "block"
+            });
+            $("#petName_chk1").css({
+                "display": "none"
+            });
+            petNameCheck = false;
+        }
+        else {
+            $("#petName_chk1").css({
+                "display": "none"
+            });
+            $("#petName_chk2").css({
+                "display": "none"
+            });
+            petNameCheck = true;
+        }
+    }
+
+    function want_pet_chk() {
+        var checkList = $("input[type=checkbox][name=wantPet]:checked");
+        if ($(this).is(':checked')) {
+            // if (checkList.length > 3) {
+            //     alert("최대 3개까지만 선택이 가능합니다.");
+            //     $(this).prop("checked", false);
+            // }
+            // else {
+                $("input:checkbox[name=wantPet]:checked").each(function () {
+                    var checkVal = $(this).val(); // 체크된 값의 value값 가져오기
+                    console.log(checkVal);
+                    $("input:checkbox[name='wantPetAll']").prop("checked", false);
+                });
+            // }
+            wantPetCheck = true;
+            $("#want_pet_chk1").css({
+                "display": "none"
+            });
+        }
+        if (checkList.length < 1 && $("input[type=checkbox][name=wantPet]:checked").length < 1) {
+            $("#want_pet_chk1").css({
+                "display": "block"
+            });
+        }
+    }
+
+    // function () {
+        
+    // }
+
+    // function () {
+        
+    // }
+
+    // function () {
+        
+    // }
+
     jQuery(document).ready(function () {
 
         // 아이디 검증
         $("#loginId").on("focusout", 
-        function () {
-                var reg = /^([a-z]+[0-9]*){5,20}$/
-                var id = $("#loginId").val();
-                if (id == "") {
-                    $("#id_chk1").css({
-                        "display": "block"
-                    });
-                    $("#id_chk2").css({
-                        "display": "none"
-                    });
-                    idCheck = false;
-                }
-                else if (reg.test(id) == false || id.includes(' ')) {
-                    $("#id_chk2").css({
-                        "display": "block"
-                    });
-                    $("#id_chk1").css({
-                        "display": "none"
-                    });
-                    idCheck = false;
-                }
-                else {
-                    // 아이디 중복인지 확인하는 로직
-                    $.ajax({
-                        url: '/member/idCheck',
-                        type: 'post',
-                        data: {
-                            "LOGIN_ID": id
-                        },
-                        success: function (r) {
-                            if (r == "success") {
-                                $("#id_chk1").css({
-                                    "display": "none"
-                                });
-                                $("#id_chk2").css({
-                                    "display": "none"
-                                });
-                                $("#id_chk3").css({
-                                    "display": "none"
-                                });
-                                idCheck = true;
-                            }
-                            else {
-                                $("#id_chk3").css({
-                                    "display": "block"
-                                });
-                            }
-                        }
-                    });
-                }
+            function () { 
+                id_chk(); 
             }
         );
 
         // 비밀번호
         $("#password").on("focusout",
             function () {
-                // 2.비밀번호 확인 검사
-                // 숫자/문자/특수문자/ 포함 형태의 8~16자리 이내의 암호 정규식 
-                // 전체길이검사 /^.{8,16}$/
-                // 숫자하나 반드시 포함 /\d/ 
-                // 영문자 반드시 포함 /[a-zA-Z]/
-                // 특수문자 반드시 포함  /[\*!&]/			
-                var regPw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
-                var pw = $("#password").val();
-                if (pw == "") {
-                    $("#pw_chk1").css({
-                        "display": "block"
-                    });
-                    $("#pw_chk2").css({
-                        "display": "none"
-                    });
-                    pwCheck = false;
-                }
-                else if (regPw.test(pw) == false || pw.includes(' ')) {
-                    $("#pw_chk2").css({
-                        "display": "block"
-                    });
-                    $("#pw_chk1").css({
-                        "display": "none"
-                    });
-                    pwCheck = false;
-                }
-                else {
-                    // 줄일수 있는 방법 알아보기
-                    $("#pw_chk1").css({
-                        "display": "none"
-                    });
-                    $("#pw_chk2").css({
-                        "display": "none"
-                    });
-                    pwCheck = true;
-                }
-            });
+                pw_chk();
+            }
+        );
 
         // 비밀번호 재확인
         $("#more_password").on("focusout",
             function () {
-                var morePw = $("#more_password").val();
-                if (morePw == "") {
-                    $("#pw_more_chk1").css({
-                        "display": "block"
-                    });
-                    $("#pw_more_chk2").css({
-                        "display": "none"
-                    });
-                    pwMoreCheck = false;
-                }
-                else if (morePw != $("#password").val()) {
-                    $("#pw_more_chk2").css({
-                        "display": "block"
-                    });
-                    $("#pw_more_chk1").css({
-                        "display": "none"
-                    });
-                    pwMoreCheck = false;
-                }
-                else {
-                    $("#pw_more_chk1").css({
-                        "display": "none"
-                    });
-                    $("#pw_more_chk2").css({
-                        "display": "none"
-                    });
-                    pwMoreCheck = true;
-                }
-            });
+                pw_more_chk();
+            }
+        );
 
         // 닉네임
         $("#nickname").on("focusout",
             function () {
-                var nickname = $("#nickname").val();
-                var nickReg = /^[ㄱ-ㅎa-zA-Zㅏ-ㅣ0-9가-힣]{5,20}$/;
-                if (nickname == "") {
-                    $("#nick_chk1").css({
-                        "display": "block"
-                    });
-                    $("#nick_chk2").css({
-                        "display": "none"
-                    });
-                    nickCheck = false;
-                }
-                else if (nickReg.test(nickname) == false || nickname.includes(' ')) {
-                    $("#nick_chk2").css({
-                        "display": "block"
-                    });
-                    $("#nick_chk1").css({
-                        "display": "none"
-                    });
-                    nickCheck = false;
-                }
-                else {
-                    // 닉네임 중복인지 확인하는 로직
-                    $.ajax({
-                        url: '/member/nickCheck',
-                        type: 'post',
-                        data: {
-                            "nickname": nickname
-                        },
-                        success: function (r) {
-                            if (r == "success") {
-                                $("#nick_chk1").css({
-                                    "display": "none"
-                                });
-                                $("#nick_chk2").css({
-                                    "display": "none"
-                                });
-                                $("#nick_chk3").css({
-                                    "display": "none"
-                                });
-                                nickCheck = true;
-                            }
-                            else {
-                                $("#nick_chk3").css({
-                                    "display": "block"
-                                });
-                            }
-                        }
-                    });
-                }
-            });
+                nick_chk();
+            }
+        );
 
         // 이메일
         $("#email").on("focusout",
             function () {
-                var email = $("#email").val();
-                var emailReg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-                if (email == "") {
-                    $("#email_chk1").css({
-                        "display": "block"
-                    });
-                    $("#email_chk2").css({
-                        "display": "none"
-                    });
-                    emailCheck = false;
-                }
-                else if (emailReg.test(email) == false || email.includes(' ')) {
-                    $("#email_chk2").css({
-                        "display": "block"
-                    });
-                    $("#email_chk1").css({
-                        "display": "none"
-                    });
-                    emailCheck = false;
-                }
-                else {
-                    $("#email_chk1").css({
-                        "display": "none"
-                    });
-                    $("#email_chk2").css({
-                        "display": "none"
-                    });
-                    emailCheck = true;
-                }
-            });
+                email_chk();
+            }
+        );
 
         // 펫 이름
         $("#petName").on("focusout",
             function () {
-                var petName = $("#petName").val();
-                var nameReg = /^[a-z가-힣]{1,20}$/;
-                if (petName == "") {
-                    $("#petName_chk1").css({
-                        "display": "block"
-                    });
-                    $("#petName_chk2").css({
-                        "display": "none"
-                    });
-                    petNameCheck = false;
-                }
-                else if (nameReg.test(petName) == false) {
-                    $("#petName_chk2").css({
-                        "display": "block"
-                    });
-                    $("#petName_chk1").css({
-                        "display": "none"
-                    });
-                    petNameCheck = false;
-                }
-                else {
-                    $("#petName_chk1").css({
-                        "display": "none"
-                    });
-                    $("#petName_chk2").css({
-                        "display": "none"
-                    });
-                    petNameCheck = true;
-                }
-            });
+                petName_chk();
+            }
+        );
     });
 
     // 반려동물 유무
@@ -421,29 +488,7 @@
 
     // 추천받길 원하는 펫
     $("input[type=checkbox][name=wantPet]").change(function () {
-        var checkList = $("input[type=checkbox][name=wantPet]:checked");
-        if ($(this).is(':checked')) {
-            if (checkList.length > 3) {
-                alert("최대 3개까지만 선택이 가능합니다.");
-                $(this).prop("checked", false);
-            }
-            else {
-                $("input:checkbox[name=wantPet]:checked").each(function () {
-                    var checkVal = $(this).val(); // 체크된 값의 value값 가져오기
-                    console.log(checkVal);
-                    $("input:checkbox[name='wantPetAll']").prop("checked", false);
-                });
-            }
-            wantPetCheck = true;
-            $("#want_pet_chk1").css({
-                "display": "none"
-            });
-        }
-        if (checkList.length < 1 && $("input[type=checkbox][name=wantPet]:checked").length < 1) {
-            $("#want_pet_chk1").css({
-                "display": "block"
-            });
-        }
+        want_pet_chk();
     });
 
     function lastCheck() {
@@ -452,30 +497,19 @@
                 || emailCheck == false || /*addrCheck == false ||*/ petYNCheck == false || petNameCheck == false
                 || petCategoryCheck == false || wantPetCheck == false) {
                 if (idCheck == false) {
-                    // id_chk();
-                    $("#id_chk1").css({
-                        "display": "block"
-                    });
+                    id_chk();
                 }
                 if (pwCheck == false) {
-                    $("#pw_chk1").css({
-                        "display": "block"
-                    });
+                    pw_chk();
                 }
                 if (pwMoreCheck == false) {
-                    $("#pw_more_chk1").css({
-                        "display": "block"
-                    });
+                    pw_more_chk();
                 }
                 if (nickCheck == false) {
-                    $("#nick_chk1").css({
-                        "display": "block"
-                    });
+                    nick_chk();
                 }
                 if (emailCheck == false) {
-                    $("#email_chk1").css({
-                        "display": "block"
-                    });
+                    email_chk();
                 }
                 if (petYNCheck == false) {
                     $("#petYN_chk1").css({
@@ -483,9 +517,7 @@
                     });
                 }
                 if (petNameCheck == false) {
-                    $("#petName_chk1").css({
-                        "display": "block"
-                    });
+                    petName_chk();
                 }
                 if (petCategoryCheck == false) {
                     $("#petCategory_chk1").css({
@@ -512,6 +544,7 @@
                     data: form,
                     success: function (r) {
                         if(r.fail!=null) {
+                            // 맵으로 바꾸기
                             if(r.valid_loginId!=null) {
                                 $("#"+r.valid_loginId).css({
                                     "display": "block"
@@ -568,32 +601,21 @@
         }
         else {
             if (idCheck == false || pwCheck == false || pwMoreCheck == false || nickCheck == false
-                || emailCheck == false || /*addrCheck == false ||*/ wantPetCheck == false) {
+                || emailCheck == false || wantPetCheck == false) {
                 if (idCheck == false) {
                     id_chk();
-                    // $("#id_chk1").css({
-                    //     "display": "block"
-                    // });
                 }
                 if (pwCheck == false) {
-                    $("#pw_chk1").css({
-                        "display": "block"
-                    });
+                    pw_chk();
                 }
                 if (pwMoreCheck == false) {
-                    $("#pw_more_chk1").css({
-                        "display": "block"
-                    });
+                    pw_more_chk();
                 }
                 if (nickCheck == false) {
-                    $("#nick_chk1").css({
-                        "display": "block"
-                    });
+                    nick_chk();
                 }
                 if (emailCheck == false) {
-                    $("#email_chk1").css({
-                        "display": "block"
-                    });
+                    email_chk();
                 }
                 if (petYNCheck == false) {
                     $("#petYN_chk1").css({
