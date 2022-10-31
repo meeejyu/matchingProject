@@ -1,6 +1,5 @@
 package com.mypetlikeit.member.contorller;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,14 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.mypetlikeit.comm.encryption.Encryption;
-import com.mypetlikeit.comm.exception.ErrorResponse;
 import com.mypetlikeit.comm.validation.ValidationSequence;
 import com.mypetlikeit.domain.Member;
 import com.mypetlikeit.domain.MemberInsertDto;
