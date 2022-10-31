@@ -163,7 +163,7 @@
     var wantPetCheck = false;
 
     function id_chk() {
-        var reg = /^([a-z]+[0-9]*){5,20}$/
+        var reg = /^[a-z0-9]{5,20}$/
         var id = $("#loginId").val();
         if (id == "") {
             $("#id_chk1").css({

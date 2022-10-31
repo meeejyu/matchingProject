@@ -24,7 +24,7 @@ public class MemberInsertDto {
 
     // NotBlank로 변경
     @NotBlank(message = "id_chk1")
-    @Pattern(regexp = "^([a-z]+[0-9]*){5,20}$", message = "id_chk2")
+    @Pattern(regexp = "^[a-z0-9]{5,20}$", message = "id_chk2")
     private String loginId;
 
     @NotBlank(message = "pw_chk1")

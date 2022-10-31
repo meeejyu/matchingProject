@@ -96,6 +96,7 @@ public class MemberController {
         if(resultMap.containsKey("valid_password")==false && resultMap.containsKey("valid_more_password")==false) {
             if(memberInsertDto.getPassword().equals(memberInsertDto.getMore_password())==false) {
                 resultMap.put("valid_more_password", "pw_more_chk2");
+                resultMap.put("fail", "실패");
             }
         }
         if(resultMap.containsKey("fail")==false) {

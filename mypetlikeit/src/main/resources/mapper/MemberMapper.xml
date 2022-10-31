@@ -12,12 +12,12 @@
     <insert id="memberSave">
         INSERT into TB_MEMBER (
             MEMBER_LOGINID, MEMBER_PW, MEMBER_NICKNAME,
-            MEMBER_EMAIL, MEMBER_PET_NAME, MEMBER_PET_CATEGORY, 
-            MEMBER_WANT_PET, MEMBER_CREATE)
+            MEMBER_EMAIL, MEMBER_PET_YN, MEMBER_PET_NAME, 
+            MEMBER_PET_CATEGORY, MEMBER_WANT_PET, MEMBER_CREATE)
         values (
         #{loginId}, #{password}, #{nickname},
-        #{email}, #{petName}, #{petCategory}, 
-        #{wantPet}, now()
+        #{email}, #{petYN}, #{petName},
+        #{petCategory}, #{wantPet}, now()
         );
     </insert>
 
