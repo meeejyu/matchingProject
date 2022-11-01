@@ -1,14 +1,24 @@
 package com.mypetlikeit.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 
 @Getter @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class Member {
     
     private long id;
@@ -55,7 +65,19 @@ public class Member {
     private String wantPet;
 
     // jwt 적용을 위한 권한 설정
-    private String authority;
+    @Builder.Default
+    private Set<Authority> authorities = new HashSet<>();
+
+    // public static Member ofUser(MemberInsertDto memberInsertDto) {
+    //     Member member = Member.builder()
+    //                     .loginId(memberInsertDto.())
+    //                     .email(memberInsertDto.getEmail())
+    //                     .password(memberInsertDto.getPassword())
+    //                     .nickname(memberInsertDto.getNickname())
+    //                     .build();
+    //     member.addAuthority(Authority.ofUser(member.getLoginId()));
+    //     return member;
+    // }
 
     public Member(
             @NotBlank(message = "id_chk1") @Pattern(regexp = "^([a-z]+[0-9]*)$", message = "id_chk2") String loginId,
@@ -74,5 +96,9 @@ public class Member {
         this.petName = petName;
         this.petCategory = petCategory;
         this.wantPet = wantPet;
+    }
+
+    private void addAuthority(Authority authority) {
+        authorities.add(authority);
     }
 }

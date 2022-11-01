@@ -17,6 +17,8 @@ public interface MemberService {
 
     List<Member> memberNickname(String nickname);
 
+    // List<Member> member
+
 }
 
 /*
@@ -25,7 +27,7 @@ public interface MemberService {
  * 
     
     CustomUserDetailService
-    
+
     @Override
     @Cacheable(value = CacheKey.USER, key = "#username", unless = "#result == null")
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

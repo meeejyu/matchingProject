@@ -8,7 +8,10 @@ import javax.validation.constraints.Pattern;
 
 import com.mypetlikeit.comm.encryption.Encryption;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /*
@@ -18,6 +21,9 @@ import lombok.ToString;
  * @NotBlank는 "", " ", null 모두 잡음
  */
 @Getter @ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MemberInsertDto {
     
     private long id;
