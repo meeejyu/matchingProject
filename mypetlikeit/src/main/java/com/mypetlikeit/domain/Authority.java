@@ -20,14 +20,14 @@ public class Authority implements GrantedAuthority{
 
     private String role;
 
-    public static Authority ofUser(long memberId) {
+    public static Authority ofUser(Long memberId) {
         return Authority.builder()
                     .role("ROLE_USER")
                     .memberId(memberId)
                     .build();
     }
 
-    public static Authority ofAdmin(long memberId) {
+    public static Authority ofAdmin(Long memberId) {
         return Authority.builder()
                     .role("ROLE_ADMIN")
                     .memberId(memberId)

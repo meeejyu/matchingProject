@@ -3,7 +3,6 @@ package com.mypetlikeit.config.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -11,7 +10,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.RequestCacheConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -28,16 +26,21 @@ public class SecurityConfig {
 
     private final JwtEntryPoint jwtEntryPoint; // 시큐리티 필터 과정중 에러가 발생할 경우 처리
     private final JwtAuthenticationFilter jwtAuthenticationFilter; // jwt 관련 필터
-    private final CustomUserDetailService customUserDetailService;
-
-    // @Bean
-    // public AuthenticationManager authenticationManager() throws Exception {
-    //     return super.authenticationManagerBean();
-    // }
+    private final CustomUserDetailService customUserDetailService; // userDetailsService라는 유저의 정보를 가져오기 위한 클래스
 
     // 비밀번호 암호화
+    // 비밀번호 검사 하는 로직
+    /*
+     * 사용할 userDetailsService를 passwordEncoder에 명시적으로 설정했었는데
+     * Bean으로 들옭만 해두면 스프링 시큐리티에 의해 해당 빈들이 사용된다.
+     */
+    // 이전 코드
+    // @Override
+    // protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    //     auth.userDetailsService(customUserDetailService).passwordEncoder(passwordEncoder());
+    // }
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -54,28 +57,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                // ???
-                // .cors()
-                // .and()
+                .cors()
+                .and()
                 .csrf().disable()
-                // .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                // .and()
-                // .headers()
-                // .frameOptions().disable().and()
                 .authorizeRequests()
                 .antMatchers("/bootstrap/**/**").permitAll()
                 .antMatchers("/login", "/main", "/", "/member", "/signup", "/signup/success", "/signup/check",
-                        "/member/idCheck", "/member/nickCheck")
-                .permitAll()
+                        "/member/idCheck", "/member/nickCheck", "/favicon.ico").permitAll()
                 .antMatchers("/user/**").hasRole("USER")
-                .anyRequest().authenticated()
+                .anyRequest().authenticated() // 인증이 되어야한다
                 
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtEntryPoint)
                 
                 .and()
-                // .addFilterBefore(new JwtAuth, null)
                 .formLogin()
                 .loginPage("/login").permitAll()
                 .defaultSuccessUrl("/index")
@@ -83,10 +79,10 @@ public class SecurityConfig {
                 .and()
                 .logout().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                // .logoutUrl("/logout")
+                .logoutUrl("/logout")
 
                 .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // jwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter전에 추가
                 .build();
     }
 
@@ -108,4 +104,5 @@ public class SecurityConfig {
                 .sessionManagement(AbstractHttpConfigurer::disable)
                 .build();
     }
+
 }

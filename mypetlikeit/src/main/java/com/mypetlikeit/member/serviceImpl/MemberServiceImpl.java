@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.mypetlikeit.domain.Authority;
 import com.mypetlikeit.domain.Member;
 import com.mypetlikeit.domain.MemberInsertDto;
 import com.mypetlikeit.member.mapper.MemberMapper;
@@ -19,7 +20,6 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public List<Member> getMemberList() {
-        System.out.println("여기는 impl 응답하라");
         return memberMapper.getMemberList();
     }
 
@@ -42,7 +42,12 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public void memberSave(MemberInsertDto memberInsertDto) {
-        memberMapper.memberSave(memberInsertDto);        
+        memberMapper.memberSave(Member.ofUser(memberInsertDto));  
+    }
+
+    @Override
+    public void authoritySave(Authority authority) {
+        memberMapper.authoritySave(authority);        
     }
 
 

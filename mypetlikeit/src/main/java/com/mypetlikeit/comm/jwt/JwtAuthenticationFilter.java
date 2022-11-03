@@ -25,7 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     
     private final JwtTokenUtil jwtTokenUtil;
     private final CustomUserDetailService customUserDetailService;
-    private final LogoutAccessTokenRedisRepositoy logoutAccessTokenRedisRepositoy;
+    // private final LogoutAccessTokenRedisRepositoy logoutAccessTokenRedisRepositoy;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -34,8 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String accessToken = getToken(request);
         if(accessToken !=null) {
             checkLogout(accessToken);
-            // String username = jwtTokenUtil.getUsername(accessToken);
-            String username = "";
+            String username = jwtTokenUtil.getUsername(accessToken);
             if(username !=null) {
                 UserDetails userDetails = customUserDetailService.loadUserByUsername(username);
                 validateAccessToken(accessToken, userDetails);
@@ -59,18 +58,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // }
     }
 
-    private void equalsUsernameFromTokenAndUserDetails(String userDetatilsUsername, String tokenUsername) {
-        if(!userDetatilsUsername.equals(tokenUsername)) {
-            throw new IllegalArgumentException("username이 토큰과 맞지 않습니다.");
+    private void validateAccessToken(String accessToken, UserDetails userDetails) {
+        if(!jwtTokenUtil.validateToken(accessToken, userDetails)) {
+            throw new IllegalArgumentException("토큰 검증 실패");
         }
     }
 
-    private void validateAccessToken(String accessToken, UserDetails userDetails) {
-        // if(!jwtTokenUtil.validateToken(accessToken, userDetails)) {
-        //     throw new IllegalArgumentException("토큰 검증 실패");
-        // }
-    }
-
+    // 유저정보 SecurityContext에 저장
     private void processSecurity(HttpServletRequest request, UserDetails userDetails) {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

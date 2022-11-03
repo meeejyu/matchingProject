@@ -1,7 +1,9 @@
 package com.mypetlikeit.domain;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -68,16 +70,35 @@ public class Member {
     @Builder.Default
     private Set<Authority> authorities = new HashSet<>();
 
-    // public static Member ofUser(MemberInsertDto memberInsertDto) {
-    //     Member member = Member.builder()
-    //                     .loginId(memberInsertDto.())
-    //                     .email(memberInsertDto.getEmail())
-    //                     .password(memberInsertDto.getPassword())
-    //                     .nickname(memberInsertDto.getNickname())
-    //                     .build();
-    //     member.addAuthority(Authority.ofUser(member.getLoginId()));
-    //     return member;
-    // }
+    public static Member ofUser(MemberInsertDto memberInsertDto) {
+        Member member = Member.builder()
+                        .loginId(memberInsertDto.getLoginId())
+                        .email(memberInsertDto.getEmail())
+                        .password(memberInsertDto.getPassword())
+                        .nickname(memberInsertDto.getNickname())
+                        .email(memberInsertDto.getEmail())
+                        .petYN(memberInsertDto.getPetYN())
+                        .petName(memberInsertDto.getPetName())
+                        .petCategory(memberInsertDto.getPetCategory())
+                        .build();
+        // member.addAuthority(Authority.ofUser(member.getLoginId()));
+        return member;
+    }
+
+    public static Member ofAdmin(MemberInsertDto memberInsertDto) {
+        Member member = Member.builder()
+                        .loginId(memberInsertDto.getLoginId())
+                        .email(memberInsertDto.getEmail())
+                        .password(memberInsertDto.getPassword())
+                        .nickname(memberInsertDto.getNickname())
+                        .email(memberInsertDto.getEmail())
+                        .petYN(memberInsertDto.getPetYN())
+                        .petName(memberInsertDto.getPetName())
+                        .petCategory(memberInsertDto.getPetCategory())
+                        .build();
+        // member.addAuthority(Authority.ofAdmin(member.getLoginId()));
+        return member;
+    }
 
     public Member(
             @NotBlank(message = "id_chk1") @Pattern(regexp = "^([a-z]+[0-9]*)$", message = "id_chk2") String loginId,
@@ -100,5 +121,12 @@ public class Member {
 
     private void addAuthority(Authority authority) {
         authorities.add(authority);
+    }
+
+    public List<String> getRoles() {
+        return authorities.stream()
+                .map(Authority::getRole)
+                // .collect(toList());
+                .collect(Collectors.toList());
     }
 }

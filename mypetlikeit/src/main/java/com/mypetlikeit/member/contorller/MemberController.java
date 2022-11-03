@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mypetlikeit.comm.validation.ValidationSequence;
+import com.mypetlikeit.domain.Authority;
 import com.mypetlikeit.domain.Member;
 import com.mypetlikeit.domain.MemberInsertDto;
 import com.mypetlikeit.member.service.MemberService;
@@ -31,11 +32,8 @@ public class MemberController {
     
     private final MemberService memberService;
 
-    // private Encryption enc;
-
     @GetMapping("/member")
     public String member() {
-        System.out.println("여기 오니?");
         List<Member> memberList = memberService.getMemberList();
 
         System.out.println(memberList.toString());
@@ -109,6 +107,13 @@ public class MemberController {
         memberInsertDto.encryptionPass(memberInsertDto);
 
         memberService.memberSave(memberInsertDto);
+
+        List<Member> member = memberService.memberLoginId(memberInsertDto.getLoginId());
+        
+        Authority authority = Authority.ofUser(member.get(0).getId());
+
+        memberService.authoritySave(authority);
+        
         return "signUpSuccess";
     }
 

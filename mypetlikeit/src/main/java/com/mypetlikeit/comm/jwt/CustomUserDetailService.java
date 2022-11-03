@@ -16,12 +16,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CustomUserDetailService implements UserDetailsService {
 
-    // 추가 설정 필요
     private final MemberServiceImpl memberServiceImpl;
     
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        List<Member> member = memberServiceImpl.getMemberList();
+    public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
+        List<Member> member = memberServiceImpl.memberLoginId(loginId);
 
         return CustomUserDetails.of(member.get(0));
     }

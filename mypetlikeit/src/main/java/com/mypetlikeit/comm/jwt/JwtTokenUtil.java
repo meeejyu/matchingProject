@@ -21,7 +21,11 @@ public class JwtTokenUtil {
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
-    public Claims extractAllClaims(String token) { // 2
+    /*
+     * 토큰 추출 메서드
+     * 서명했을 때의 secretkey로 서명하고 토큰을 만들때 username, 발급날짜, 만료기간을 넣었던 payload를 가져옴
+     */
+    public Claims extractAllClaims(String token) { 
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey(SECRET_KEY))
                 .build()
@@ -38,20 +42,28 @@ public class JwtTokenUtil {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    // 토큰 만료
     public Boolean isTokenExpired(String token) {
         Date expiration = extractAllClaims(token).getExpiration();
         return expiration.before(new Date());
     }
 
     public String generateAccessToken(String username) {
-        return doGenerateToken(username, ACCESS_TOKEN_EXPIRATION_TIME.getValue());
+        // return doGenerateToken(username, ACCESS_TOKEN_EXPIRATION_TIME.getValue());
+        return doGenerateToken(username, JwtExpirationEnums.ACCESS_TOKEN_EXPIRATION_TIME.getValue());
     }
 
     public String generateRefreshToken(String username) {
-        return doGenerateToken(username, REFRESH_TOKEN_EXPIRATION_TIME.getValue());
+        // return doGenerateToken(username, REFRESH_TOKEN_EXPIRATION_TIME.getValue());
+        return doGenerateToken(username, JwtExpirationEnums.REFRESH_TOKEN_EXPIRATION_TIME.getValue());
     }
 
-    private String doGenerateToken(String username, long expireTime) { // 1
+    /*
+     * 토큰 생성 메소드
+     * JWT는 header.payload.signature로 구성되어 있다.
+     * username, 발급날짜, 만료기간을 payload에 넣고 앞에 yml에서 설정한 secrekey로 서명 후 HS256 알고리즘으로 암호화합니다
+     */
+    private String doGenerateToken(String username, long expireTime) {
         Claims claims = Jwts.claims();
         claims.put("username", username);
 

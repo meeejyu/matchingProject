@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 
+// 시큐리티 필터 과정 중 에러가 발생할 경우 처리
 @Slf4j
 @Component
 public class JwtEntryPoint implements AuthenticationEntryPoint{
