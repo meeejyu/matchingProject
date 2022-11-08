@@ -1,25 +1,29 @@
 package com.mypetlikeit.domain.jwt;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+// @RedisHash("refreshToken")
+@AllArgsConstructor
+@Builder
 public class RefreshToken {
     
-    private String key;
+    private String id;
 
-    private String value;
+    private String refreshToken;
 
-    public void updateValue(String token) {
-        this.value = token;
-    }
+    // @TimeToLive
+    private Long expiration;
 
-    @Builder
-    public RefreshToken(String key, String value) {
-        this.key = key;
-        this.value = value;
+    public static RefreshToken createRefreshToken(String username, String refreshToken, Long remainingMilliSeconds) {
+        return RefreshToken.builder()
+                .id(username)
+                .refreshToken(refreshToken)
+                .expiration(remainingMilliSeconds / 1000)
+                .build();
     }
     
 }

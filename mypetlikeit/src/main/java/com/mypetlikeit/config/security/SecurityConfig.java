@@ -79,7 +79,7 @@ public class SecurityConfig {
                 .and()
                 .logout().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .logoutUrl("/logout")
+                // .logoutUrl("/logout")
 
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // jwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter전에 추가
