@@ -1,4 +1,4 @@
-package com.mypetlikeit.comm.jwt;
+package com.mypetlikeit.config.jwt;
 
 import java.io.IOException;
 
@@ -14,6 +14,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.mypetlikeit.comm.util.JwtTokenUtil;
+import com.mypetlikeit.config.security.CustomUserDetailService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -13,9 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.mypetlikeit.comm.jwt.CustomUserDetailService;
-import com.mypetlikeit.comm.jwt.JwtAuthenticationFilter;
-import com.mypetlikeit.comm.jwt.JwtEntryPoint;
+import com.mypetlikeit.config.jwt.JwtAuthenticationFilter;
+import com.mypetlikeit.config.jwt.JwtEntryPoint;
 
 import lombok.RequiredArgsConstructor;
 

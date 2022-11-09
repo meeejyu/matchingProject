@@ -1,4 +1,4 @@
-package com.mypetlikeit.comm.jwt;
+package com.mypetlikeit.config.cache;
 
 import java.time.Duration;
 

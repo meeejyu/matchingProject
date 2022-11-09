@@ -1,4 +1,4 @@
-package com.mypetlikeit.comm.jwt;
+package com.mypetlikeit.config.jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

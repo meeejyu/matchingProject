@@ -1,4 +1,4 @@
-package com.mypetlikeit.comm.jwt;
+package com.mypetlikeit.config.security;
 
 import java.util.ArrayList;
 import java.util.Collection;

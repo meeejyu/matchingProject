@@ -1,8 +1,6 @@
-package com.mypetlikeit.comm.jwt;
+package com.mypetlikeit.domain.jwt;
 
 import org.springframework.data.repository.CrudRepository;
-
-import com.mypetlikeit.domain.jwt.LogoutAccessToken;
 
 public interface LogoutAccessTokenRedisRepository extends CrudRepository<LogoutAccessToken, String> {
 
