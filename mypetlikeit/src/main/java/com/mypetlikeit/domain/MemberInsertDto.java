@@ -44,18 +44,11 @@ public class MemberInsertDto {
     // ^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$
     @NotBlank(message = "nick_chk1")
     @Pattern(regexp = "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{2,16}$", message = "nick_chk2")
-    // @Pattern(regexp = "/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣a-zA-Z0-9]$/", message = "nick_chk2", groups = ValidationGroups.PatternCheckGroup.class)
     private String nickname;
 
     @NotBlank(message = "email_chk1")
     @Email(message = "email_chk2")
     private String email;
-
-    // @NotEmpty
-    // private String profile;
-
-    // @NotEmpty
-    // private String address;
 
     @NotBlank(message = "petYN_chk1")
     private String petYN;
