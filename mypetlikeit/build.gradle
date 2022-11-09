@@ -21,6 +21,8 @@ repositories {
 dependencies {
 	// implementation 'org.springframework.boot:spring-boot-starter-batch'
 	// implementation 'org.springframework.boot:spring-boot-starter-quartz'
+	// 레디스 설정 추가
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
