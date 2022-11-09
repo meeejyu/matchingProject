@@ -1,11 +1,14 @@
 package com.mypetlikeit.domain.jwt;
 
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-// @RedisHash("logoutAccessToken")
+@RedisHash("logoutAccessToken")
 @AllArgsConstructor
 @Builder
 public class LogoutAccessToken {
@@ -14,7 +17,7 @@ public class LogoutAccessToken {
 
     private String username;
 
-    // @TimeToLive
+    @TimeToLive
     private Long expiration;
 
     public static LogoutAccessToken of(String accessToken, String username, Long remainingMilliSeconds) {

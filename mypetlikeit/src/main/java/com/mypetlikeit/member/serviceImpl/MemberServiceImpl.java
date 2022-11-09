@@ -23,11 +23,6 @@ public class MemberServiceImpl implements MemberService{
         return memberMapper.getMemberList();
     }
 
-    // @Override
-    // public void memberSave(Member member) {
-    //     memberMapper.memberSave(member);
-    // }
-
     @Override
     public List<Member> memberLoginId(String id) {
         List<Member> member = memberMapper.memberLoginId(id);        
