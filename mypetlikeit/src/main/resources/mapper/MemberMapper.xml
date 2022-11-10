@@ -11,13 +11,21 @@
 
     <insert id="memberSave">
         INSERT into TB_MEMBER (
-            MEMBER_LOGINID, MEMBER_PW, MEMBER_NICKNAME,
+            MEMBER_LOGINID, MEMBER_PW, MEMBER_USERNAME, MEMBER_NICKNAME,
             MEMBER_EMAIL, MEMBER_PET_YN, MEMBER_PET_NAME, 
             MEMBER_PET_CATEGORY, MEMBER_WANT_PET, MEMBER_CREATE)
         values (
-        #{loginId}, #{password}, #{nickname},
+        #{loginId}, #{password}, #{username}, #{nickname},
         #{email}, #{petYN}, #{petName},
         #{petCategory}, #{wantPet}, now()
+        );
+    </insert>
+
+    <insert id="authoritySave">
+        INSERT into TB_AUTHORITY (
+            AUTHORITY_ROLE, MEMBER_ID) 
+        values (
+            #{role}, #{memberId}
         );
     </insert>
 

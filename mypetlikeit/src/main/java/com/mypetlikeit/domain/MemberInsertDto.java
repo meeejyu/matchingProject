@@ -21,9 +21,6 @@ import lombok.ToString;
  * @NotBlank는 "", " ", null 모두 잡음
  */
 @Getter @ToString
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class MemberInsertDto {
     
     private long id;

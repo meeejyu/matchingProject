@@ -102,13 +102,17 @@ public class MemberController {
 
     // 비밀번호 암호화에 따른 비밀번호 길이 변경 필요
     @PostMapping("/signup/success")
-    public String signUp_success(@Validated(ValidationSequence.class) MemberInsertDto memberInsertDto, BindingResult bindingResult, Model model) {
+    public String signUp_success(@Valid MemberInsertDto memberInsertDto, BindingResult bindingResult, Model model) {
 
         memberInsertDto.encryptionPass(memberInsertDto);
 
         memberService.memberSave(memberInsertDto);
 
+        System.out.println("일단은 디티오 잘 갖고 오겠지?"+memberInsertDto.getLoginId());
+
         List<Member> member = memberService.memberLoginId(memberInsertDto.getLoginId());
+
+        System.out.println("리스트를 찍어봅시다11"+member.toString());
         
         Authority authority = Authority.ofUser(member.get(0).getId());
 
@@ -122,13 +126,20 @@ public class MemberController {
         
         System.out.println("값이 잘오나 확인"+LOGIN_ID);
         List<Member> member = memberService.memberLoginId(LOGIN_ID);
-        if(member.size()<1) {
+
+        if(member.size()==0) {
             System.out.println("성공");
-            return "success";
+            return "success";            
         }
         else {
-            System.out.println("실패");
-            return "fail";
+            if(member.get(0)==null) {
+                System.out.println("성공");
+                return "success";
+            }
+            else {
+                System.out.println("실패");
+                return "fail";
+            }
         }
     }
 
