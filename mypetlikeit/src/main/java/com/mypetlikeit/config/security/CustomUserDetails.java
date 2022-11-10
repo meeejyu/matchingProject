@@ -3,6 +3,7 @@ package com.mypetlikeit.config.security;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -33,11 +34,11 @@ public class CustomUserDetails implements UserDetails{
     @Builder.Default
     private List<String> roles = new ArrayList<>();
     
-    public static UserDetails of(Member member) {
+    public static UserDetails of(Map<String, Object> memberMap) {
         return CustomUserDetails.builder()
-                .loginId(member.getLoginId())
-                .password(member.getPassword())
-                .roles(member.getRoles())
+                .loginId(memberMap.get("MEMBER_LOGINID").toString())
+                .password(memberMap.get("MEMBER_PW").toString())
+                .roles((List<String>)memberMap.get("AUTHORITY_ROLE"))
                 .build();
     }
 

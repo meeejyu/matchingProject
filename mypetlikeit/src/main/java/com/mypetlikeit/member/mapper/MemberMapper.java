@@ -1,6 +1,7 @@
 package com.mypetlikeit.member.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,14 +11,20 @@ import com.mypetlikeit.domain.Member;
 @Mapper
 public interface MemberMapper {
     
-    List<Member> getMemberList();
+    List<Map<String, Object>> getMemberList();
+
+    // Map<String, Object> getMemberList();
 
     void memberSave(Member member);
     
     void authoritySave(Authority authority);
 
-    List<Member> memberLoginId(String id);
+    Map<String, Object> getAuthority(String loginId);
 
-    List<Member> memberNickname(String nickname);
+    Map<String, Object> memberLoginId(String loginId);
+
+    Map<String, Object> memberNickname(String nickname);
+
+    Map<String, Object> memberUsername(String username);    
     
 }

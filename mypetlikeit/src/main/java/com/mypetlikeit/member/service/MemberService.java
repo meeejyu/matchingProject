@@ -1,24 +1,26 @@
 package com.mypetlikeit.member.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mypetlikeit.domain.Authority;
-import com.mypetlikeit.domain.Member;
 import com.mypetlikeit.domain.MemberInsertDto;
 
 public interface MemberService {
     
-    public List<Member> getMemberList();
-
-    // void memberSave(Member member);
+    List<Map<String, Object>> getMemberList();
 
     void memberSave(MemberInsertDto memberInsertDto);
-
+    
     void authoritySave(Authority authority);
 
-    List<Member> memberLoginId(String id);
+    Map<String, Object> getAuthority(String loginId);
 
-    List<Member> memberNickname(String nickname);
+    Map<String, Object> memberLoginId(String loginId);
+
+    Map<String, Object> memberNickname(String nickname);
+
+    Map<String, Object> memberUsername(String username);   
 
 }
 

@@ -69,11 +69,17 @@ public class SecurityConfig {
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtEntryPoint)
+
+                /* jwt 기반으로 로그인/로그아웃을 처리할것이기 때문에 기존 login, logout 배제
+                    스프링 시큐리티는 기본 로그인 / 로그아웃 시 세션을 통해 유저 정보들을 저장한다.
+                    하지만 Redis를 사용할 것이기 떄문에 상태를 저장하지 않는 STATELESS로 설정
+                */ 
                 
-                .and()
-                .formLogin()
-                .loginPage("/login").permitAll()
-                .defaultSuccessUrl("/index")
+
+                // .and()
+                // .formLogin()
+                // .loginPage("/login").permitAll()
+                // .defaultSuccessUrl("/index")
                 
                 .and()
                 .logout().disable()

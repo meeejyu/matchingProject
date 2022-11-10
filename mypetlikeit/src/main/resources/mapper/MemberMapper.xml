@@ -5,7 +5,7 @@
 
 <mapper namespace="com.mypetlikeit.member.mapper.MemberMapper">
 
-    <select id="getMemberList" resultType="Member">
+    <select id="getMemberList" resultType="HashMap">
         select * from TB_MEMBER;
     </select>
 
@@ -29,15 +29,21 @@
         );
     </insert>
 
-    <select id="memberLoginId" resultType="Member">
+    <select id="memberLoginId" resultType="HashMap">
         select * from TB_MEMBER 
-            where MEMBER_LOGINID = #{id}
+            where MEMBER_LOGINID = #{loginId}
         ;
     </select>
 
-    <select id="memberNickname" resultType="Member">
+    <select id="memberNickname" resultType="HashMap">
         select * from TB_MEMBER 
             where MEMBER_NICKNAME = #{nickname}
+        ;
+    </select>
+
+    <select id="memberUsername" resultType="HashMap">
+        select * from TB_MEMBER 
+            where MEMBER_USERNAME = #{username}
         ;
     </select>
 

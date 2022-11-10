@@ -1,6 +1,8 @@
 package com.mypetlikeit.member.serviceImpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -19,20 +21,20 @@ public class MemberServiceImpl implements MemberService{
     private final MemberMapper memberMapper;
 
     @Override
-    public List<Member> getMemberList() {
+    public List<Map<String, Object>> getMemberList() {
         return memberMapper.getMemberList();
     }
 
     @Override
-    public List<Member> memberLoginId(String id) {
-        List<Member> member = memberMapper.memberLoginId(id);        
-        return member;
+    public Map<String, Object> memberLoginId(String loginId) {
+        Map<String, Object> map = memberMapper.memberLoginId(loginId);        
+        return map;
     }
 
     @Override
-    public List<Member> memberNickname(String nickname) {
-        List<Member> member = memberMapper.memberNickname(nickname);        
-        return member;
+    public Map<String, Object> memberNickname(String nickname) {
+        Map<String, Object> map = memberMapper.memberNickname(nickname);        
+        return map;
     }
 
     @Override
@@ -43,6 +45,18 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public void authoritySave(Authority authority) {
         memberMapper.authoritySave(authority);        
+    }
+
+    @Override
+    public Map<String, Object> memberUsername(String username) {
+        Map<String, Object> memberMap = memberMapper.memberUsername(username);        
+        return memberMap;
+    }
+
+    @Override
+    public Map<String, Object> getAuthority(String loginId) {
+        Map<String, Object> memberMap = memberMapper.getAuthority(loginId);        
+        return memberMap;
     }
 
 

@@ -34,6 +34,8 @@ public class MemberInsertDto {
     @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,16}$", message = "pw_chk2")
     private String password;
 
+    private String username;
+
     @NotBlank(message = "pw_more_chk1")
     private String more_password;
 

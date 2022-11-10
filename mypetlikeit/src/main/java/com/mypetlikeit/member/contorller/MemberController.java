@@ -34,9 +34,9 @@ public class MemberController {
 
     @GetMapping("/member")
     public String member() {
-        List<Member> memberList = memberService.getMemberList();
+        List<Map<String, Object>> memberMap = memberService.getMemberList();
 
-        System.out.println(memberList.toString());
+        System.out.println(memberMap.toString());
         return "main";
     }
 
@@ -110,11 +110,11 @@ public class MemberController {
 
         System.out.println("일단은 디티오 잘 갖고 오겠지?"+memberInsertDto.getLoginId());
 
-        List<Member> member = memberService.memberLoginId(memberInsertDto.getLoginId());
+        Map<String,Object> memberMap = memberService.memberLoginId(memberInsertDto.getLoginId());
 
-        System.out.println("리스트를 찍어봅시다11"+member.toString());
+        System.out.println("리스트를 찍어봅시다11"+memberMap.toString());
         
-        Authority authority = Authority.ofUser(member.get(0).getId());
+        Authority authority = Authority.ofUser((Long.valueOf(memberMap.get("MEMBER_ID").toString())));
 
         memberService.authoritySave(authority);
         
@@ -125,21 +125,18 @@ public class MemberController {
     public @ResponseBody String memberidCheck(String LOGIN_ID) {
         
         System.out.println("값이 잘오나 확인"+LOGIN_ID);
-        List<Member> member = memberService.memberLoginId(LOGIN_ID);
+        Map<String,Object> memberMap = memberService.memberLoginId(LOGIN_ID);
 
-        if(member.size()==0) {
+
+        if(memberMap==null) {
             System.out.println("성공");
             return "success";            
         }
         else {
-            if(member.get(0)==null) {
-                System.out.println("성공");
-                return "success";
-            }
-            else {
-                System.out.println("실패");
-                return "fail";
-            }
+            Map<String,Object> memberMap2 = memberService.memberUsername(memberMap.get("MEMBER_USERNAME").toString());
+            System.out.println("map 값 확인 : "+ memberMap2.toString());
+            System.out.println("실패");
+            return "fail";
         }
     }
 
@@ -147,8 +144,8 @@ public class MemberController {
     public @ResponseBody String memberNickCheck(String nickname) {
         
         System.out.println("값이 잘오나 확인"+nickname);
-        List<Member> member = memberService.memberNickname(nickname);
-        if(member.size()<1) {
+        Map<String,Object> memberMap = memberService.memberNickname(nickname);
+        if(memberMap==null) {
             System.out.println("성공");
             return "success";
         }
