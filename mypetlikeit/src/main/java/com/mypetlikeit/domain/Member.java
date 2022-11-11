@@ -83,7 +83,6 @@ public class Member {
             memberInsertDto.getId(), 
             memberInsertDto.getLoginId(), 
             memberInsertDto.getPassword(),
-            memberInsertDto.getUsername(),
             memberInsertDto.getNickname(),
             memberInsertDto.getEmail(), 
             memberInsertDto.getPetYN(), 
@@ -91,6 +90,7 @@ public class Member {
             memberInsertDto.getPetCategory(), 
             memberInsertDto.getWantPet());
         member.addAuthority(Authority.ofUser(member.getId()));
+        member.createUsername();
         return member;
     }
 
@@ -102,7 +102,7 @@ public class Member {
     public Member(long id,
             @NotBlank(message = "id_chk1") @Pattern(regexp = "^[a-z0-9]{5,20}$", message = "id_chk2") String loginId,
             @NotBlank(message = "pw_chk1") @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,16}$", message = "pw_chk2") String password,
-            String username,
+            // String username,
             // @NotBlank(message = "pw_more_chk1") String more_password,
             @NotBlank(message = "nick_chk1") @Pattern(regexp = "^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{2,16}$", message = "nick_chk2") String nickname,
             @NotBlank(message = "email_chk1") @Email(message = "email_chk2") String email,
@@ -111,7 +111,7 @@ public class Member {
         this.id = id;
         this.loginId = loginId;
         this.password = password;
-        this.username = UUID.randomUUID().toString();
+        // this.username = UUID.randomUUID().toString();
         // this.username = username;
         // this.more_password = more_password;
         this.nickname = nickname;
@@ -127,6 +127,11 @@ public class Member {
                 .map(Authority::getRole)
                 // .collect(toList());
                 .collect(Collectors.toList());
+    }
+
+    public String createUsername() {
+        username = UUID.randomUUID().toString(); 
+        return username;
     }
 
     // public static Member ofAdmin(MemberInsertDto memberInsertDto) {

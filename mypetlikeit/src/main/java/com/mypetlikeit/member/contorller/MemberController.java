@@ -84,7 +84,9 @@ public class MemberController {
                 if(memberInsertDto.getPetCategory()==null) {
                     resultMap.put("valid_petCategory", "petCategory_chk1");
                 };
-                resultMap.put("fail", "실패");
+                if(resultMap.size()>0) {
+                    resultMap.put("fail", "실패");
+                }
             }
         }
         if(resultMap.containsKey("valid_password")==false && resultMap.containsKey("valid_more_password")==false) {
@@ -108,11 +110,11 @@ public class MemberController {
 
         memberService.memberSave(memberInsertDto);
 
-        System.out.println("일단은 디티오 잘 갖고 오겠지?"+memberInsertDto.getLoginId());
+        // System.out.println("일단은 디티오 잘 갖고 오겠지?"+memberInsertDto.getLoginId());
 
         Map<String,Object> memberMap = memberService.memberLoginId(memberInsertDto.getLoginId());
 
-        System.out.println("리스트를 찍어봅시다11"+memberMap.toString());
+        // System.out.println("리스트를 찍어봅시다11"+memberMap.toString());
         
         Authority authority = Authority.ofUser((Long.valueOf(memberMap.get("MEMBER_ID").toString())));
 

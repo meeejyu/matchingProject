@@ -16,6 +16,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import lombok.RequiredArgsConstructor;
 
+// 캐시를 사용하기 위한 Key와 디폴트 만료 시간을 설정한 클래스
 @Configuration
 @RequiredArgsConstructor
 @EnableCaching
