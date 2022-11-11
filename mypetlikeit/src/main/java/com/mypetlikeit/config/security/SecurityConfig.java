@@ -62,7 +62,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/bootstrap/**/**").permitAll()
                 .antMatchers("/login", "/main", "/", "/member", "/signup", "/signup/success", "/signup/check",
-                        "/member/idCheck", "/member/nickCheck", "/favicon.ico").permitAll()
+                        "/member/idCheck", "/member/nickCheck", "/login/check","/favicon.ico").permitAll()
                 .antMatchers("/user/**").hasRole("USER")
                 .anyRequest().authenticated() // 인증이 되어야한다
                 

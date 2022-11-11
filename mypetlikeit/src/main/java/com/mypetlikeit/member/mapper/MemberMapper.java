@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.mypetlikeit.domain.Authority;
+import com.mypetlikeit.domain.LoginDto;
 import com.mypetlikeit.domain.Member;
 
 @Mapper
@@ -26,5 +27,7 @@ public interface MemberMapper {
     Map<String, Object> memberNickname(String nickname);
 
     Map<String, Object> memberUsername(String username);    
+
+    Map<String, Object> getLoginMember(LoginDto loginDto);
     
 }

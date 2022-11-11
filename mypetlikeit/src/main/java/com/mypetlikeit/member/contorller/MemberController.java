@@ -50,7 +50,7 @@ public class MemberController {
     public @ResponseBody Map<String, Object> signUp_check(@Valid MemberInsertDto memberInsertDto, BindingResult bindingResult, Errors errorss) {
 
         Map<String, Object> resultMap = new HashMap<>();
-        Map<String, Object> result = new HashMap<>();
+        // Map<String, Object> result = new HashMap<>();
 
         System.out.println("멤버 가져오기 : "+ memberInsertDto.toString());
 
@@ -64,7 +64,7 @@ public class MemberController {
                 else {
                     resultMap.put("valid_"+fieldError.getField(), fieldError.getDefaultMessage());
                 }
-                result.put("valid_"+fieldError.getField(), fieldError.getDefaultMessage());
+                // result.put("valid_"+fieldError.getField(), fieldError.getDefaultMessage());
             }
             resultMap.put("fail", "실패");
         }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mypetlikeit.domain.Authority;
+import com.mypetlikeit.domain.LoginDto;
 import com.mypetlikeit.domain.MemberInsertDto;
 
 public interface MemberService {
@@ -21,6 +22,8 @@ public interface MemberService {
     Map<String, Object> memberNickname(String nickname);
 
     Map<String, Object> memberUsername(String username);   
+
+    Map<String, Object> getLoginMember(LoginDto loginDto);
 
 }
 

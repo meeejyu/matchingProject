@@ -1,12 +1,12 @@
 package com.mypetlikeit.member.serviceImpl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.mypetlikeit.domain.Authority;
+import com.mypetlikeit.domain.LoginDto;
 import com.mypetlikeit.domain.Member;
 import com.mypetlikeit.domain.MemberInsertDto;
 import com.mypetlikeit.member.mapper.MemberMapper;
@@ -56,6 +56,14 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public Map<String, Object> getAuthority(String loginId) {
         Map<String, Object> memberMap = memberMapper.getAuthority(loginId);        
+        return memberMap;
+    }
+
+    @Override
+    public Map<String, Object> getLoginMember(LoginDto loginDto) {
+
+        Map<String, Object> memberMap = memberMapper.getLoginMember(loginDto);
+        
         return memberMap;
     }
 
