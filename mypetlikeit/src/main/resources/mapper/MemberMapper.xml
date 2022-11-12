@@ -47,4 +47,11 @@
         ;
     </select>
 
+    <select id="getLoginMember" resultType="HashMap">
+        select * from TB_MEMBER 
+            where MEMBER_LOGINID = #{loginId}
+            and MEMBER_PW = #{password}
+        ;
+    </select>
+
 </mapper>
