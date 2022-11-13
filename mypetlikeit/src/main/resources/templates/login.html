@@ -51,8 +51,7 @@
         <h1 class="logo">로그인</h1>
         <div class="container">
             <form method="post" id="frm">
-
-                <input type="text" placeholder="ID" id="loginId" name="loginId" class="account" value="fdgdgd">
+                <input type="text" placeholder="ID" id="loginId" name="loginId" class="account" value="fdgdgd4">
                 <input type="password" placeholder="Password" id="password" name="password" class="account" value="rkskek123!">
                 <button type="button" id="login" class="account" onclick="loginCheck()">login</button>
             </form>
@@ -69,13 +68,11 @@
             dataType:'json',
             data: form,
             success: function (r) {
-                alert("여기오니?3")
                 if(r.fail!=null) {
                     alert(r.fail);
                 }
                 else {
-                    alert("여기오니?2")
-                    $("#frm").attr("action", "/user/main");
+                    $("#frm").attr("action", "/user2/main");
                     $("#frm").submit();
                 }
             }

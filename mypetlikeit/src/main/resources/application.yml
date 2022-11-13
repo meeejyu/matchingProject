@@ -23,4 +23,4 @@ mybatis:
     map-underscore-to-camel-case: true
   
 jwt:
-  secret: realjwtsecret
+  secret: realjwtsuperverysecretkeyrealjwtsuperverysecretkey

@@ -5,10 +5,16 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.mypetlikeit.comm.util.JwtTokenUtil;
+import com.mypetlikeit.config.jwt.JwtExpirationEnums;
 import com.mypetlikeit.domain.Authority;
 import com.mypetlikeit.domain.LoginDto;
 import com.mypetlikeit.domain.Member;
 import com.mypetlikeit.domain.MemberInsertDto;
+import com.mypetlikeit.domain.TokenDto;
+import com.mypetlikeit.domain.jwt.LogoutAccessTokenRedisRepository;
+import com.mypetlikeit.domain.jwt.RefreshToken;
+import com.mypetlikeit.domain.jwt.RefreshTokenRedisRepository;
 import com.mypetlikeit.member.mapper.MemberMapper;
 import com.mypetlikeit.member.service.MemberService;
 
@@ -16,9 +22,12 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
     
     private final MemberMapper memberMapper;
+    private final RefreshTokenRedisRepository refreshTokenRedisRepository;
+    private final LogoutAccessTokenRedisRepository logoutAccessTokenRedisRepository;
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Override
     public List<Map<String, Object>> getMemberList() {
@@ -64,9 +73,30 @@ public class MemberServiceImpl implements MemberService{
 
         Map<String, Object> memberMap = memberMapper.getLoginMember(loginDto);
         
+        // String username = (String) memberMap.get("username");
+        // String accessToken = jwtTokenUtil.generateAccessToken(username);
+        // RefreshToken refreshToken = saveRefreshToken(username);
+
+        // TokenDto.of(accessToken, refreshToken.getRefreshToken());
+
         return memberMap;
     }
 
+    public TokenDto getLoginMember2(LoginDto loginDto) {
+
+        Map<String, Object> memberMap = memberMapper.getLoginMember(loginDto);
+        
+        String username = (String) memberMap.get("MEMBER_USERNAME");
+        String accessToken = jwtTokenUtil.generateAccessToken(username);
+        RefreshToken refreshToken = saveRefreshToken(username);
+
+        return TokenDto.of(accessToken, refreshToken.getRefreshToken());
+    }
+
+    private RefreshToken saveRefreshToken(String username) {
+        return refreshTokenRedisRepository.save(RefreshToken.createRefreshToken(
+            username, jwtTokenUtil.generateAccessToken(username), JwtExpirationEnums.REFRESH_TOKEN_EXPIRATION_TIME.getValue()));
+    }
 
 
 }
