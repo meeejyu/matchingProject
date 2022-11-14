@@ -24,3 +24,4 @@ mybatis:
   
 jwt:
   secret: realjwtsuperverysecretkeyrealjwtsuperverysecretkey
+  # 시크릿키가 짧으면 에러가 발생함, 길게 설정할것

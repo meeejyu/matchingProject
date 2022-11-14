@@ -71,7 +71,8 @@ public class MainController {
     }
 
     @PostMapping("/user/main")
-    public String userMain(LoginDto loginDto) {
+    // public String userMain(LoginDto loginDto) {
+    public String userMain() {
         System.out.println("추카 포카");
 
         // return ResponseEntity.ok(memberServiceImpl.getLoginMember2(loginDto));

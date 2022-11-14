@@ -1,7 +1,6 @@
 package com.mypetlikeit.config.security;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.mypetlikeit.domain.Member;
+import com.mypetlikeit.config.cache.CacheKey;
 import com.mypetlikeit.member.serviceImpl.MemberServiceImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -23,9 +22,10 @@ public class CustomUserDetailService implements UserDetailsService {
     private final MemberServiceImpl memberServiceImpl;
     
     @Override
-    // @Cacheable 
+    @Cacheable(value = CacheKey.USER, key = "#username", unless = "#result == null")
     // 토큰을 줄때 마다 데이터베이스를 거치는 것을 줄이기 위해 설정
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         Map<String, Object> memberMap = memberServiceImpl.memberUsername(username);
 
         Map<String, Object> map = memberMap;
