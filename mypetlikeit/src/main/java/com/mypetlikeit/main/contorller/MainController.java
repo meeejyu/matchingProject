@@ -11,9 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mypetlikeit.comm.util.JwtTokenUtil;
 import com.mypetlikeit.domain.LoginDto;
 import com.mypetlikeit.domain.TokenDto;
 import com.mypetlikeit.main.service.MainService;
@@ -21,6 +21,7 @@ import com.mypetlikeit.member.service.MemberService;
 import com.mypetlikeit.member.serviceImpl.MemberServiceImpl;
 
 import lombok.RequiredArgsConstructor;
+
 
 @Controller
 // @RequestMapping(value = "/")
@@ -30,6 +31,8 @@ public class MainController {
     private final MemberService memberService;
 
     private final MemberServiceImpl memberServiceImpl;
+
+    private final JwtTokenUtil jwtTokenUtil;
     
     // private final MainService mainService;
 
@@ -87,5 +90,19 @@ public class MainController {
         // return ResponseEntity.ok(memberServiceImpl.getLoginMember2(loginDto));
         return "userMain";
     }
+
+    @PostMapping("/logout")
+    public String logout(@RequestHeader("Authorization") String accessToken, 
+                        @RequestHeader("RefreshToken") String refreshToken) {
+        
+        String username = jwtTokenUtil.getUsername(resolveToken(accessToken));
+        memberServiceImpl.logout(TokenDto.of(accessToken, refreshToken), username);
+        return "logout";
+    }
+
+    private String resolveToken(String accessToken) {
+        return accessToken.substring(7);
+    }
+    
 
 }

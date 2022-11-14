@@ -4,18 +4,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mypetlikeit.comm.util.JwtTokenUtil;
+import com.mypetlikeit.config.cache.CacheKey;
 import com.mypetlikeit.config.jwt.JwtExpirationEnums;
 import com.mypetlikeit.domain.Authority;
 import com.mypetlikeit.domain.LoginDto;
 import com.mypetlikeit.domain.Member;
 import com.mypetlikeit.domain.MemberInsertDto;
 import com.mypetlikeit.domain.TokenDto;
+import com.mypetlikeit.domain.jwt.LogoutAccessToken;
 import com.mypetlikeit.domain.jwt.LogoutAccessTokenRedisRepository;
 import com.mypetlikeit.domain.jwt.RefreshToken;
 import com.mypetlikeit.domain.jwt.RefreshTokenRedisRepository;
@@ -26,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MemberServiceImpl implements MemberService {
     
     private final MemberMapper memberMapper;
@@ -135,5 +140,12 @@ public class MemberServiceImpl implements MemberService {
             username, jwtTokenUtil.generateAccessToken(username), JwtExpirationEnums.REFRESH_TOKEN_EXPIRATION_TIME.getValue()));
     }
 
+    @CacheEvict(value = CacheKey.USER, key= "#username")
+    public void logout(TokenDto tokenDto, String username) {
+        String accessToken = resolveToken(tokenDto.getAccessToken());
+        long remainMilliSeconds = jwtTokenUtil.getRemainMilliSeconds(accessToken);
+        refreshTokenRedisRepository.deleteById(username);
+        logoutAccessTokenRedisRepository.save(LogoutAccessToken.of(accessToken, username, remainMilliSeconds));
+    }
 
 }
