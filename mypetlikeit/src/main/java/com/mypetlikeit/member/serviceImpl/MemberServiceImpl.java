@@ -2,7 +2,11 @@ package com.mypetlikeit.member.serviceImpl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.mypetlikeit.comm.util.JwtTokenUtil;
@@ -80,6 +84,39 @@ public class MemberServiceImpl implements MemberService {
         // TokenDto.of(accessToken, refreshToken.getRefreshToken());
 
         return memberMap;
+    }
+
+    private String resolveToken(String token) {
+        return token.substring(7);
+    }
+
+    private String getCurrentUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails principal = (UserDetails) authentication.getPrincipal();
+        return principal.getUsername();
+    }
+
+    private TokenDto reissueRefreshToken(String refreshToken, String username) {
+        if(lessThanReissueExpirationTimesLeft(refreshToken)) {
+            String accessToken = jwtTokenUtil.generateAccessToken(username);
+            return TokenDto.of(accessToken, saveRefreshToken(username).getRefreshToken());
+        }
+        return TokenDto.of(jwtTokenUtil.generateAccessToken(username), refreshToken);
+    }
+
+    private boolean lessThanReissueExpirationTimesLeft(String refreshToken) {
+        return jwtTokenUtil.getRemainMilliSeconds(refreshToken) < JwtExpirationEnums.REISSUE_EXPIRATION_TIME.getValue();
+    }
+
+    public TokenDto reissue(String refreshToken) {
+        refreshToken = resolveToken(refreshToken);
+        String username = getCurrentUsername();
+        RefreshToken redisRefreshToken = refreshTokenRedisRepository.findById(username).orElseThrow(NoSuchElementException::new);
+
+        if(refreshToken.equals(redisRefreshToken.getRefreshToken())) {
+            return reissueRefreshToken(refreshToken, username);
+        }
+        throw new IllegalArgumentException("토큰이 일치하지 않습니다.");
     }
 
     public TokenDto getLoginMember2(LoginDto loginDto) {

@@ -44,7 +44,7 @@ public class JwtTokenUtil {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // 토큰 만료
+    // 토큰 만료 확인
     public Boolean isTokenExpired(String token) {
         Date expiration = extractAllClaims(token).getExpiration();
         return expiration.before(new Date());

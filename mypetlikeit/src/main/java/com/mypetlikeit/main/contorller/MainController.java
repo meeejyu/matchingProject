@@ -3,10 +3,14 @@ package com.mypetlikeit.main.contorller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -59,8 +63,13 @@ public class MainController {
         return resultMap;
     }
 
+    @PostMapping("/reissue")
+    public ResponseEntity<TokenDto> reissue(@RequestHeader("RefereshToken") String refreshToken) {
+        return ResponseEntity.ok(memberServiceImpl.reissue(refreshToken));
+    }
+
     @PostMapping("/user2/main")
-    public ResponseEntity<TokenDto> userMain2(LoginDto loginDto) {
+    public ResponseEntity<TokenDto> userMain2(LoginDto loginDto, HttpServletRequest request, HttpServletResponse response) {
 
         loginDto.encryptionPass(loginDto);
 
@@ -72,7 +81,7 @@ public class MainController {
 
     @PostMapping("/user/main")
     // public String userMain(LoginDto loginDto) {
-    public String userMain() {
+    public String userMain(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("추카 포카");
 
         // return ResponseEntity.ok(memberServiceImpl.getLoginMember2(loginDto));
