@@ -67,7 +67,7 @@ public class MainController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<TokenDto> reissue(@RequestHeader("RefereshToken") String refreshToken) {
+    public ResponseEntity<TokenDto> reissue(@RequestHeader("RefreshToken") String refreshToken) {
         return ResponseEntity.ok(memberServiceImpl.reissue(refreshToken));
     }
 
