@@ -15,7 +15,7 @@ public interface MemberService {
     
     void authoritySave(Authority authority);
 
-    Map<String, Object> getAuthority(String loginId);
+    Map<String, Object> getAuthority(String id);
 
     Map<String, Object> memberLoginId(String loginId);
 

@@ -72,8 +72,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Map<String, Object> getAuthority(String loginId) {
-        Map<String, Object> memberMap = memberMapper.getAuthority(loginId);        
+    public Map<String, Object> getAuthority(String id) {
+        Map<String, Object> memberMap = memberMapper.getAuthority(id);        
         return memberMap;
     }
 

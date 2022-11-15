@@ -11,7 +11,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mypetlikeit.domain.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CustomUserDetails implements UserDetails{
     
-    private String loginId;
+    private String username;
     private String password;
 
     @Builder.Default
@@ -36,7 +35,7 @@ public class CustomUserDetails implements UserDetails{
     
     public static UserDetails of(Map<String, Object> memberMap) {
         return CustomUserDetails.builder()
-                .loginId(memberMap.get("MEMBER_LOGINID").toString())
+                .username(memberMap.get("MEMBER_USERNAME").toString())
                 .password(memberMap.get("MEMBER_PW").toString())
                 .roles((List<String>)memberMap.get("AUTHORITY_ROLE"))
                 .build();
@@ -58,7 +57,7 @@ public class CustomUserDetails implements UserDetails{
 
     @Override
     public String getUsername() {
-        return loginId;
+        return username;
     }
 
     @Override

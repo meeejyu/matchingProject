@@ -54,4 +54,10 @@
         ;
     </select>
 
+    <select id="getAuthority" resultType="HashMap">
+        select * from TB_AUTHORITY 
+            where MEMBER_ID = #{id}
+        ;
+    </select>
+
 </mapper>
